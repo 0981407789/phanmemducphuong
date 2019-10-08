@@ -1,0 +1,123 @@
+﻿@model List<WebApplication1.Models.DonHang>
+@{
+    ViewBag.Title = "Báo cáo nợ khách hàng";
+}
+<div class="container topinputarea">
+    <div class="row">
+        <h4 class="headertext">
+            <i class="fa fa-bar-chart"></i>  Báo cáo <i class="fa fa-chevron-right"></i> Khách hàng nợ
+        </h4>
+    </div>
+
+
+</div>
+<div class="container" id="DanhSachSanPham">
+    <p style="background: #d6d6d6; color: #ff0000; padding: 10px; margin-bottom: 0px; font-weight: bold; font-size: 20px;" class="row">
+        Tổng nợ khách hàng: <span id="tongnoall" class="money"></span>
+    </p>
+
+
+
+    <div class="row tbheader visible-lg">
+        <div class="col-lg-4">
+            Khách hàng
+        </div>
+        <div class="col-lg-2">
+            Còn nợ
+        </div>
+        <div class="col-lg-2">
+            Ngày hẹn
+        </div>
+        <div class="col-lg-2">
+            Ngày tính lãi
+        </div>
+        <div class="col-lg-2">
+            Ghi chú
+        </div>
+    </div>
+
+    @foreach (var item in Model)
+    {
+        <div class="tr row tbitem">
+            <div class="col-lg-4">
+                @Html.Action("CustomerByIdReport", "KhachHangs", new { id = item.KhachHang })
+            </div>
+            <div class="money conno col-lg-2">
+                @item.ConNo
+            </div>
+            <div class="ngayhentd col-lg-2">
+                <p class="date ngayhen">
+                    @item.NgayHen
+                </p>
+                <p>
+                    Quá hẹn:<span class="songayquahen">
+                    </span>
+                </p>
+            </div>
+            <div class="ngaytinhlaitd col-lg-2">
+                <p class="date ngaytinhlai">
+                    @item.NgayTinhLai
+                </p>
+                <p>
+                    Ngày lãi: <span id="songaytinhlai"></span>
+                </p>
+                <p>Tiền lãi: <span id="tienlai" class="money"></span></p>
+            </div>
+            <div class="col-lg-2">
+                @item.GhiChu
+            </div>
+        </div>
+    }
+
+</div>
+<script>
+    $('.ngayhentd').each(function () {
+        var ngayhen = $(this).find('.ngayhen');
+        var ngay = $(ngayhen).text();
+        var date = new Date(ngay);
+        var today = new Date();
+        var datediff = new Date(today - date);
+        var days = parseInt(datediff / 1000 / 60 / 60 / 24);
+        if (days < 0) {
+            $(this).find('.songayquahen').text("Chưa");
+        } else if (days == 0) {
+            $(this).find('.songayquahen').text("Đến hẹn");
+        } else {
+            $(this).find('.songayquahen').text(days + " Ngày");
+        }
+    });
+    $('.ngaytinhlaitd').each(function () {
+        var ngayhen = $(this).find('.ngaytinhlai');
+        var ngay = $(ngayhen).text();
+        var date = new Date(ngay);
+        var today = new Date();
+        var datediff = new Date(today - date);
+        var days = parseInt(datediff / 1000 / 60 / 60 / 24);
+        if (days <= 0) {
+            $(this).find('#songaytinhlai').text("0");
+        } else {
+            $(this).find('#songaytinhlai').text(days + " Ngày");
+        }
+
+    });
+    var tongno = 0;
+    $('.tr').each(function () {
+        var conno = $(this).find('.conno');
+        var sotien = $(conno).text().replace(/,/g, '');
+        tongno += parseFloat(sotien);
+        var ngayhen = $(this).find('.ngaytinhlai');
+        var ngay = $(ngayhen).text();
+        var date = new Date(ngay);
+        var today = new Date();
+        var datediff = new Date(today - date);
+        var days = parseInt(datediff / 1000 / 60 / 60 / 24);
+        if (days > 0) {
+            var tienlai = ((sotien * 0.02) / 30) * days;
+            $(this).find('#tienlai').text(tienlai);
+        } else {
+            $(this).find('#tienlai').text('0.0');
+        }
+
+    });
+    $('#tongnoall').text(tongno);
+</script>

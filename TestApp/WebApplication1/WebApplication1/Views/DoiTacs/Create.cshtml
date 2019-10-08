@@ -1,0 +1,102 @@
+﻿@model WebApplication1.Models.DoiTac
+
+@{
+    ViewBag.Title = "Create";
+}
+<div class='container'>
+<h2>Thêm mới</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div>
+        <h4>DoiTac</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class='row'>
+			<div class='col-lg-2'>
+            @Html.LabelFor(model => model.Ten)
+			
+			</div>
+            <div class='col-lg-10'>
+                @Html.TextBoxFor(model => model.Ten, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Ten)
+            </div>
+        </div>
+		<p></p>
+
+        <div class='row'>
+			<div class='col-lg-2'>
+            @Html.LabelFor(model => model.DiaChi)
+			
+			</div>
+            <div class='col-lg-10'>
+                @Html.TextBoxFor(model => model.DiaChi, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DiaChi)
+            </div>
+        </div>
+		<p></p>
+
+        <div class='row'>
+			<div class='col-lg-2'>
+            @Html.LabelFor(model => model.GhiChu)
+			
+			</div>
+            <div class='col-lg-10'>
+                @Html.TextBoxFor(model => model.GhiChu, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.GhiChu)
+            </div>
+        </div>
+		<p></p>
+
+        <div class='row'>
+			<div class='col-lg-2'>
+            @Html.LabelFor(model => model.SoDienThoai)
+			
+			</div>
+            <div class='col-lg-10'>
+                @Html.TextBoxFor(model => model.SoDienThoai, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SoDienThoai)
+            </div>
+        </div>
+		<p></p>
+
+        <div class='row'>
+			<div class='col-lg-2'>
+            @Html.LabelFor(model => model.SoTaiKhoan)
+			
+			</div>
+            <div class='col-lg-10'>
+                @Html.TextBoxFor(model => model.SoTaiKhoan, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SoTaiKhoan)
+            </div>
+        </div>
+		<p></p>
+
+        <div class='row'>
+			<div class='col-lg-2'>
+            @Html.LabelFor(model => model.KhachLe)
+			
+			</div>
+            <div class='col-lg-10'>
+                @Html.TextBoxFor(model => model.KhachLe, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.KhachLe)
+            </div>
+        </div>
+		<p></p>
+
+        <div>
+            <div>
+				<p></p>
+                <input type="submit" value="Thêm" class="btn btn-primary form-control" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Danh sách", "Index")
+</div>
+</div>

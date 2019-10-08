@@ -1,0 +1,166 @@
+﻿@model WebApplication1.Models.NhapHang
+<div class="container topinputarea">
+    <div class="row">
+        <h4 class="headertext">
+            <i class="fa fa-bar-chart"></i> Thông tin lô hàng
+        </h4>
+    </div>
+    <div class="row baocaotop" style="padding-bottom:15px">
+        @using (Ajax.BeginForm("UpdateDonHang", "SanPham", new AjaxOptions() { HttpMethod = "Post", OnSuccess = "OnSuccess" }))
+        {
+
+            @Html.HiddenFor(model => model.Id)
+            <div class="col-lg-4">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <i class="fa fa-list-ol"></i>
+                        <span class="textlable">
+                            Số lô:
+                        </span>
+                    </div>
+                    <div class="col-xs-8">
+                        <input type="text" value="@Model.Id" class="form-control" disabled />
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <i class="fa fa-calculator"></i>
+                        <span class="textlable">
+                            Tổng:
+                        </span>
+                    </div>
+                    <div class="col-xs-8">
+                        @Html.TextBoxFor(m => m.TongTien, new { @class = "form-control money", id = "tongtiencualo" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <i class="fa fa-calculator"></i>
+                        <span class="textlable">
+                            Đã trả:
+                        </span>
+                    </div>
+                    <div class="col-xs-8">
+                        @Html.TextBoxFor(m => m.DaTra, new { @class = "form-control money" })
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-lg-4">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <i class="fa fa-calculator"></i>
+                        <span class="textlable">
+                            Nợ
+                        </span>
+                    </div>
+                    <div class="col-xs-8">
+                        @Html.TextBoxFor(m => m.ConNo, new { @class = "form-control money", id = "tongnocualo" })
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-lg-4">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <i class="fa fa-calendar"></i>
+                        <span class="textlable">
+                            Ngày:
+                        </span>
+                    </div>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" value="@Model.NgayNhap" name="NgayNhap" id="ngaynhaplo" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4" style="position:relative">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <i class="fa fa-users"></i>
+                        <span class="textlable">
+                            Đối tác:
+                        </span>
+                    </div>
+                    <div class="col-xs-8">
+                        @Html.HiddenFor(m => m.DoiTac)
+                        <span>
+                            @if (Model.DoiTac.HasValue)
+                            {
+                                <input type="text" value='@Html.Action("GetNameById", "DoiTacs", new { id = Model.DoiTac })' class="form-control" disabled />
+
+                            }
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <i class="fa fa-pencil-square-o"></i>
+                        <span class="textlable">
+                            Ghi chú:
+                        </span>
+                    </div>
+                    <div class="col-xs-8">
+                        @Html.TextBoxFor(m => m.GhiChu, new { @class = "form-control" })
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <div class="col-lg-4 pull-right">
+                <button type="submit" class="btn btn-primary form-control" style="font-weight:bold">
+                    <i class="fa fa-download"></i> Lưu
+                </button>
+            </div>
+
+        }
+    </div>
+</div>
+<style>
+    .baocaotop .col-xs-4 {
+        margin-top: 5px;
+    }
+
+    .baocaotop .row {
+        margin-bottom: 5px;
+    }
+
+  
+</style>
+<script>
+    $("#ngaynhaplo").datepicker(
+        $.datepicker.regional["vi"]
+    );
+    $(document).ready(function () {
+        var date = $('#ngaynhaplo').val();
+        var dt = date.split("/");
+        var mon = parseFloat(dt[0]);
+        var day = parseFloat(dt[1]);
+        if (mon < 10) {
+            mon = '0' + mon;
+
+        }
+        if (day < 10) {
+            day = '0' + day;
+
+        }
+        if (dt.length >= 3) {
+            $('#ngaynhaplo').val(day + "/" + mon + "/" + dt[2].substr(0, 4));
+        }
+    });
+    function OnSuccess() {
+        Notify("Cập nhật thành công");
+    }
+
+</script>

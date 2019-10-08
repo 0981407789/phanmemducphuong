@@ -1,0 +1,23 @@
+﻿<div id="page-content" class="container listareaborder table-responsive">    
+    @Html.Action("ListNhapHangPage", "SanPham", new { page = 1 })
+</div>
+<div class="container table-responsive" style="border:solid 1px #b0b0b0">
+    <p style="margin: 0px;font-size: 20px;font-weight: bold;">Trang</p>
+    <ul id="pagination" style="margin:0px">
+        @for (int i = 1; i <= ViewBag.totalpage; i++)
+        {
+            <li>
+                @i
+            </li>
+        }
+    </ul>
+</div>
+<script>
+$('#pagination').twbsPagination({
+        totalPages: @ViewBag.totalpage+'',
+        visiblePages: 7,
+        onPageClick: function (event, page) {
+            $('#page-content').load('@Url.Action("ListNhapHangPage", "SanPham")?page=' + page);
+        }
+    });
+</script>

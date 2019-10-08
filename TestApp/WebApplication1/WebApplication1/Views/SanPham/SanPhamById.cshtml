@@ -1,0 +1,33 @@
+﻿@model WebApplication1.Models.SanPham
+<div>
+    <span>
+        @Html.Action("LoaiSanPhamById", "LoaiSanPhams", new { id = Model.IdLoai })
+    </span>
+    <div>
+        @if (!string.IsNullOrEmpty(Model.BienSo))
+        {
+            <span>
+                - Biển số: @Model.BienSo
+            </span>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.SoKhung))
+        {
+            <span>
+                - Sk: @Model.SoKhung
+            </span>
+        }
+        @if (!string.IsNullOrEmpty(Model.SoMay))
+        {
+            <span>
+                - SM: @Model.SoMay
+            </span>
+        }
+        @if (!string.IsNullOrEmpty(Model.MauSac))
+        {
+            <span>
+                - Màu: @Model.MauSac
+            </span>
+        }
+    </div>
+</div>

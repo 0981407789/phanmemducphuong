@@ -1,0 +1,153 @@
+﻿@model List<WebApplication1.Models.DoiTac>
+
+<div class="container topinputarea">
+    <div class="row">
+        <h4 class="headertext">
+            <i class="fa fa-bar-chart"></i> Quản lý đối tác
+        </h4>
+    </div>
+
+
+</div>
+
+<div class="container" style="border: solid 1px #c5c5c5;padding:0px">
+    <ul class="nav nav-pills ultab" style="margin-top:0px">
+        <li class="active" id="chitietloli">
+            <a href="#ChiTietLo" data-toggle="tab">Tìm kiếm</a>
+        </li>
+        <li id="tranonhaphangli">
+            <a href="#tranonhaphang" data-toggle="tab">Thêm mới</a>
+        </li>
+
+    </ul>
+    <div class="tab-content mytabcontent" style="margin:0px;padding:0px">
+
+
+        <div class="row tab-pane active" id="ChiTietLo" style="margin:0px;padding:0px">
+            @using (Html.BeginForm("TimKiemDoiTac", "DoiTacs", FormMethod.Get))
+            {
+                <div class="row" style="margin:10px 0px">
+                    <div class="col-lg-6" style="margin-bottom:5px">
+                        <div class="row">
+                            <span class="textlable col-xs-3" style="margin-top:5px">
+                                <i class="fa fa-text-width"></i>
+                                Từ khóa
+                            </span>
+                            <div class="col-xs-9">
+                                <input type="text" class="mysearchinput" style="" id="keyword" name="q" value="@ViewBag.q" />
+                                <button type="submit" class="myserachbutton" style="" id="bntSearch">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            }
+            <table id="" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="hidden">Id</th>
+                        <th>Tên</th>
+                        <th>Điện thoại</th>
+                        <th>Địa chỉ</th>
+                        <th>Số tài khoản</th>
+                        <th>Đối tượng</th>
+                    </tr>
+                </thead>
+                @if (Model != null && Model.Count > 0)
+                {
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="c_id hidden">@item.Id</td>
+                                <td class="c_name">
+                                    <a href="@Url.Action("ChiTietDoiTac","DoiTacs",new { id=item.Id})">
+                                        @item.Ten
+                                    </a>
+
+                                </td>
+                                <td class="c_phone"> @item.SoDienThoai</td>
+                                <td class="c_diachi"> @item.DiaChi</td>
+                                <td class="c_diachi"> @item.SoTaiKhoan</td>
+                                <td class="c_diachi">
+                                    @if (item.KhachLe.HasValue)
+                                    {
+                                        if (item.KhachLe.Value)
+                                        {
+                                            <span>
+                                                Khách lẻ
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span>
+                                                Nhà cung cấp
+                                            </span>
+                                        }
+                                        /**/
+                                    }
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                }
+            </table>
+        </div>
+        <div class="row tab-pane" id="tranonhaphang" style="margin:0px;padding:0px">
+            @Html.Action("AddPartnerDialog", "DoiTacs")
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $('#btnAddPartner').click(function () {
+        $.colorbox({
+            href:'@Url.Action("AddPartnerDialog", "DoiTacs")'
+        });
+    });
+    function AddPartnerSuccess() {
+        $('#cboxClose').click();
+    }
+</script>
+<style>
+    .nav-pills > li > a {
+        border-radius: 0px;
+        /*background: #d3d3d3;*/
+        color: #000;
+        font-weight: bold;
+        text-transform: uppercase
+    }
+
+    .nav-pills > li:first-child {
+        /*border-left: solid 1px #b9b8b8;*/
+    }
+
+    .nav-pills > li:last-child {
+        border-right: solid 1px #b9b8b8;
+    }
+
+    .mytabcontent {
+        border-top: solid 1px #b9b8b8;
+        /*border-bottom: none;*/
+    }
+
+    .ultab {
+        margin-top: 20px
+    }
+
+        .ultab li {
+            /*border-top: solid 1px #808080;*/
+            margin: 0px;
+            padding: 0px
+        }
+
+    .nav-pills > li + li {
+        margin-left: 0px;
+        border-left: solid 1px #b9b8b8;
+    }
+</style>

@@ -1,0 +1,10 @@
+﻿@model List<WebApplication1.Models.CuaHang>
+<select id="selectCuaHang" class="selectCuaHang form-control">
+    <option value="">
+        Vui lòng chọn
+    </option>
+    @foreach (var item in Model)
+    {
+        <option value="@item.Id">@item.Ten </option>
+    }
+</select>

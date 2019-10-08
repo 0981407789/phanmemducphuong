@@ -1,0 +1,193 @@
+﻿@model WebApplication1.Models.DonHang
+<div class="container">
+
+    <div style="font-size: 20px; padding-top: 20px;font-weight: bold;text-transform: uppercase;color: red;">
+        <span>
+            Tổng nợ:
+        </span>
+        <span id="tongno">@Model.ConNo</span>
+    </div>
+    <div>
+        <span>
+            Ngày hết hạn:
+        </span>
+        <span class="date" id="ngayhentruoc">
+            @Model.NgayHen
+        </span>
+
+    </div>
+    <div>
+        <span>
+            Ngày tính lãi:
+        </span>
+        <span>
+            @{
+                if (Model.NgayTinhLai.HasValue)
+                {
+                    var quahen = DateTime.Today.Subtract(Model.NgayTinhLai.Value);
+                    <span class="date" id="ngaytinhlai">
+                        @Model.NgayTinhLai
+                    </span>
+                    <span>
+                        Số ngày:
+                    </span>
+                    if (quahen.Days > 0)
+                    {
+                        <span id="songayquahen">
+                            @quahen.Days
+                        </span>
+                        <span>
+                            ngày
+                        </span>
+                        <span>
+                            Tiền Lãi:
+                        </span>
+                        var lai = (((Model.ConNo * 2) / 100) / 30) * quahen.Days;
+                        <span class="money" id="tienlaiauto">
+                            @lai
+                        </span>
+                    }
+                    else
+                    {
+                        <span id="songayquahen">
+                            0
+                        </span>
+                        <span>
+                            ngày
+                        </span>
+                        <span>
+                            Tiền Lãi:
+                        </span>
+                        <span class="money" id="tienlaiauto">
+                            0
+                        </span>
+                    }
+
+
+
+                }
+
+            }
+        </span>
+    </div>
+    <p></p>
+    @using (Ajax.BeginForm("CustomerPay", "KhachHangs",
+        new AjaxOptions
+        {
+            HttpMethod = "Post",
+            OnSuccess = "PaySuccess"
+        }))
+    {
+        <div class="row">
+            <div class="col-lg-6">
+                <input type="hidden" value="@Model.Id" name="iddonhang" />
+                <p>
+                    <i class="fa fa-calendar"></i>
+                    Ngày trả
+                    <input type="text" class="form-control" name="ngaytra" id="ngaytra" required />
+                </p>
+                <p>
+                    <i class="fa fa-usd"></i>
+                    Số tiền
+                    <input type="text" class="form-control" name="sotien" id="sotien" required />
+                </p>
+                <p>
+                    <i class="fa fa-usd"></i>
+                    Phí khác
+                    <input type="text" class="form-control" name="phikhac" id="phikhac" />
+                </p>
+                <p>
+                    <i class="fa fa-usd"></i>
+                    Còn nợ
+                    <input type="text" class="form-control" name="conno" id="connoabc" required value="@Model.ConNo" />
+                </p>
+            </div>
+            <div class="col-lg-6">
+
+                <p>
+                    <i class="fa fa-user"></i>
+                    Người nhận
+                    <input type="text" class="form-control" name="nguoinhan" />
+                </p>
+                <p>
+                    <i class="fa fa-pencil-square-o"></i>
+                    Ghi chú
+                    <textarea class="form-control" name="ghichu" rows="4"></textarea>
+                </p>
+                <p style="margin-top:33px">
+                    <button type="submit" class="form-control btn btn-primary">
+                        <i class="fa fa-plus"></i>
+                        Thực hiện
+                    </button>
+
+                </p>
+            </div>
+        </div>
+    }
+    <script>
+        $(document).ready(function () {
+            $('.money').number(true, 0);
+            $('#sotien').number(true, 0);
+
+            $('#connoabc').number(true, 0);
+
+            $('#tongno').number(true, 0);
+            $("#ngaytra").datepicker(
+                $.datepicker.regional["vi"]
+            );
+            $("#ngayhen").datepicker(
+                $.datepicker.regional["vi"]
+            );
+            var tienlaiauto = $('#tienlaiauto').text().trim().replace(/,/g, '');
+            $('#phikhac').val(tienlaiauto);
+            $('#phikhac').number(true, 0);
+        });
+        function PaySuccess(data) {
+            Notify("Thực hiện thành công");
+            $('#lichsutab').addClass('active');
+            $('#lichsu').addClass('active');
+            $('#trano').removeClass('active');
+            $('#tranotab').removeClass('active');
+            $('#lichsu').load('@Url.Action("CustomerPayHistory", "KhachHangs", new { id = Model.Id})');
+
+        }
+        $('#sotien').keyup(function () {
+            var tongno = $('#tongno').text().trim().replace(/,/g, '');
+            var sotien = $(this).val().trim().replace(/,/, '');
+            var conno = tongno - sotien;
+            $('#connoabc').val(conno);
+            $('#connoabc').number(true, 0);
+        });
+        $(".date").each(function () {
+            var date = $(this).text();
+            var dt = date.split("/");
+            if (dt.length >= 3) {
+                $(this).text(dt[1] + " - " + dt[0] + " - " + dt[2].substr(0, 4));
+            }
+        });
+        $('#ngaytra').change(function () {
+            var test = $(this).val().split('/');
+            var ngaytradate = new Date(test[2], test[1] - 1, test[0]);
+            var ngayhentruoc = $('#ngaytinhlai').text().split('-');
+            var ngayhentruocdate = new Date(ngayhentruoc[2], ngayhentruoc[1] - 1, ngayhentruoc[0]);
+            var difference = (ngaytradate - ngayhentruocdate) / 86400000;
+            if (difference > 0) {
+                $('#songayquahen').text(difference);
+            } else {
+                $('#songayquahen').text('0');
+            }
+
+            var tongno = $('#tongno').text().trim().replace(/,/g, '');
+            var tienlai = (((tongno * 2) / 100) / 30) * difference;
+            if (tienlai > 0) {
+                $('#tienlaiauto').text(tienlai);
+                $('#phikhac').val(tienlai);
+            } else {
+                $('#tienlaiauto').text('0');
+                $('#phikhac').val('0');
+            }
+            $('#phikhac').number(true, 0);
+            $('#tienlaiauto').number(true, 0);
+        });
+    </script>
+</div>

@@ -1,0 +1,123 @@
+﻿@model WebApplication1.Models.DoiTac
+
+@using (Ajax.BeginForm("AddPartnerDialog", "DoiTacs", new AjaxOptions() { HttpMethod = "Post", OnSuccess = "AddPartnerSuccess" }))
+{
+    <div style="padding:10px">
+        <div class="container">
+            <h2 style="text-transform:uppercase;text-align:center;font-weight:bold">
+                Thêm mới đối tác
+                <i class="fa fa-user-plus"></i>
+            </h2>
+            <div class='row'>
+                <div class='col-lg-4'>  
+                    <span class="textlable">
+                        <i class="fa fa-user"></i>  Tên
+                    </span>
+
+                </div>
+                <div class='col-lg-8'>
+                    @Html.TextBoxFor(model => model.Ten, new { @class = "form-control", required = "required" })
+                </div>
+            </div>
+            <p></p>
+
+            <div class='row'>
+                <div class='col-lg-4'>
+                    
+                    <span class="textlable">
+                        <i class="fa fa-phone"></i> Điện thoại
+                    </span>
+
+                </div>
+                <div class='col-lg-8'>
+                    @Html.TextBoxFor(model => model.SoDienThoai, new { @class = "form-control" })
+
+                </div>
+            </div>
+            <p></p>
+            <div class='row'>
+                <div class='col-lg-4'>
+                   
+                    <span class="textlable">
+                        <i class="fa fa-home"></i>  Địa chỉ
+                    </span>
+
+
+                </div>
+                <div class='col-lg-8'>
+                    @Html.TextBoxFor(model => model.DiaChi, new { @class = "form-control" })
+                </div>
+            </div>
+            <p></p>
+            <div class='row'>
+                <div class='col-lg-4'>
+                   
+                    <span class="textlable">
+                        <i class="fa fa-users"></i>  Đối tượng
+                    </span>
+
+                </div>
+                <div class='col-lg-8'>
+                    <select class="form-control" id="selectKhachLe">
+                        <option>Vui lòng chọn</option>
+                        <option value="true">Khách lẻ</option>
+                        <option value="false">Nhà cung cấp</option>
+                    </select>
+                    @Html.HiddenFor(model => model.KhachLe, new { @class = "form-control", id = "khachle" })
+                </div>
+            </div>
+            <p></p>
+            <div class='row'>
+                <div class='col-lg-4'>
+                    
+                    <span class="textlable">
+                        <i class="fa fa-pencil-square-o"></i>   Ghi chú
+                    </span>
+
+                </div>
+                <div class='col-lg-8'>
+                    @Html.TextBoxFor(model => model.GhiChu, new { @class = "form-control" })
+                </div>
+            </div>
+            <p></p>
+            <div class='row'>
+                <div class='col-lg-4'>
+                   
+                    <span class="textlable">
+                        <i class="fa fa-credit-card"></i>   Tài khoản
+                    </span>
+
+                </div>
+                <div class='col-lg-8'>
+                    @Html.TextBoxFor(model => model.SoTaiKhoan, new { @class = "form-control" })
+                </div>
+            </div>
+            <p></p>
+            <div class="row">
+                <div class="col-lg-6">
+                    <p></p>
+                    <button type="reset" class="btn btn-danger form-control">
+                        <i class="fa fa-times"></i>
+                        Hủy
+                    </button>
+
+                </div>
+                <div class="col-lg-6">
+                    <p></p>
+                    <button type="submit" class="btn btn-primary form-control">
+                        <i class="fa fa-plus"></i>
+                        Nhập
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+   
+}
+
+<script>
+    $('#selectKhachLe').change(function () {
+        $('#khachle').val($(this).val());
+    });
+</script>

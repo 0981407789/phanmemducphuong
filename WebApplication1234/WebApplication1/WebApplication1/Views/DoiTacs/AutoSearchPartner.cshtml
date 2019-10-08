@@ -1,0 +1,51 @@
+﻿@model IEnumerable<WebApplication1.Models.DoiTac>
+@if (Model != null && Model.Count() > 0)
+{
+    <ul id="ListCustomer">
+        @foreach (var item in Model)
+        {
+            <li>
+                <span class="c_id hidden">@item.Id</span>
+                <span class="c_name">@item.Ten</span>
+                <span> - </span>
+                <span class="c_phone"> @item.SoDienThoai</span>
+                <span> - </span>
+                <span class="c_diachi"> @item.DiaChi</span>
+            </li>
+        }
+    </ul>
+}
+else
+{
+
+
+    <a class="textAddNewCustomer" id="textAddNewCustomer" href="@Url.Action("AddPartnerDialog","DoiTacs")">
+        <p style="padding:10px;font-weight:bold">Thêm mới</p>
+    </a>
+}
+<style>
+    ul {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    #ListCustomer li {
+        border-bottom: solid 1px #c8c8c8;
+        list-style-type: none;
+        padding: 10px;
+    }
+
+        #ListCustomer li:hover {
+            cursor: pointer;
+        }
+</style>
+<script>
+    $('#textAddNewCustomer').colorbox({ width: "80%" });
+    $('#ListCustomer li').click(function (e) {
+        var name = $(this).find("span.c_name").text();
+        var id = $(this).find("span.c_id").text();
+        $('#AutoSearchPartner').val(name);
+        $('#iddoitac').val(id);
+        $('#ShowArea').hide();
+    });
+</script>

@@ -1,0 +1,79 @@
+﻿@using (Ajax.BeginForm("ThemSuaChuaNoiBo", "SanPham", new AjaxOptions()
+{
+    HttpMethod = "Post",
+    OnSuccess = "OnSuccess"
+}))
+{
+    <input type="hidden" value="@ViewBag.id" name="id" />
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group row">
+                    <div class="col-xs-4 col-form-label">
+                        <p></p>
+                        <i class="fa fa-calendar"></i>  Ngày
+                    </div>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" id="ngaythang" name="ngaythang" required />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-xs-4 col-form-label">
+                        <p></p>
+                        <i class="fa fa-user"></i>  Người
+                    </div>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" name="nguoi" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group row">
+                    <div class="col-xs-4 col-form-label">
+                        <p></p>
+                        <i class="fa fa-money"></i> Số tiền
+                    </div>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" id="tongtiensuachua" value="@ViewBag.total" name="tongtien" required />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-xs-4 col-form-label">
+                        <p></p>
+                        <i class="fa fa-pencil"></i>Ghi chú
+                    </div>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" name="ghichu" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <p></p>
+            <div class="col-xs-6">
+                <a class="btn btn-danger form-control" href="#"> Hủy</a>
+            </div>
+            <div class="col-xs-6">
+                <input type="submit" value="Cập nhật" class="btn btn-primary form-control " />
+            </div>
+            <p></p>
+        </div>
+    </div>
+}
+<script>
+    $("#ngaythang").datepicker(
+        $.datepicker.regional["vi"]
+    );
+    function OnSuccess(data) {
+        var json = $.parseJSON(data);
+        if (json['code'] == 1) {
+            Notify('Thêm thành công');
+            $('#listSpDaChon').empty();
+            $('#lssuachua').load('@Url.Action("LichSuSuaChuaNoiBo", "SanPham",new {id=ViewBag.id })');
+            $('#lssuachua').addClass('active');
+            $('#lichsuli').addClass('active');
+            $('#suachuacontent').removeClass('active');
+             $('#suachua').removeClass('active');
+        }
+    }
+</script>

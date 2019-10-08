@@ -1,0 +1,11 @@
+﻿@model WebApplication1.Models.SanPham
+
+<input type="hidden" value="@Model.Id" name="idsanpham"/>
+<div class="col-lg-6">
+    <span>
+        Sản phẩm: 
+    </span>
+    <span>
+        @Html.Action("LoaiSanPhamById", "LoaiSanPhams", new { id = Model.IdLoai })
+    </span>
+</div>

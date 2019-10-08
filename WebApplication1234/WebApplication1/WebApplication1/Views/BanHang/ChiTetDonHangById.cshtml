@@ -1,0 +1,20 @@
+﻿@model WebApplication1.Models.ChiTietDonHang
+    <input type="hidden" value="@Model.Id" name="idchitietdonhang"/>
+<input type="hidden" value="@Model.IdBanHang" name="iddonhang" />
+<div>
+    @Html.Action("GetProductDoiTra", "SanPham", new { id = Model.IdSanPham })
+</div>
+<div class="col-lg-3">
+    <span>
+        Số lượng:
+    </span>
+    <span class="money">
+        @Model.SoLuong
+    </span>
+</div>
+<div class="col-lg-3">
+    <span>Giá bán</span>
+    <span class="money">
+        @Model.GiaBan
+    </span>
+</div>

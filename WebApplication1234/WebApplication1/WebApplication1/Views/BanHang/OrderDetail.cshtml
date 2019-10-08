@@ -1,0 +1,422 @@
+﻿@model List<WebApplication1.Models.ChiTietDonHang>
+@if (Model != null && Model.Count > 0)
+{
+    <div class="container" style="border:solid 1px #c8c8c8;">
+        <div class="row listheader visible-lg">
+            <div class="col-lg-3">
+                Sản phẩm
+            </div>
+            <div class="col-lg-1">
+                Tồn
+            </div>
+            <div class="col-lg-2">
+                Bán
+            </div>
+            <div class="col-lg-2">
+                Số lượng
+            </div>
+            <div class="col-lg-2">
+                Thành tiền
+            </div>
+            <div class="col-lg-2">
+
+            </div>
+        </div>
+        @foreach (var item in Model)
+        {
+            <div class="row listitem" id="row_@item.IdSanPham" style="padding-top:10px">
+                @Html.Action("GetProductById", "SanPham", new { id = item.IdSanPham })
+
+                <div class="col-lg-2">
+                    <div class="row">
+                        <div class="col-xs-3 hidden-lg">
+                            <span>
+                                Giá bán:
+                            </span>
+                        </div>
+                        <div class="col-xs-9">
+                            <input type="text" class="giaban form-control" id="giaban_@item.IdSanPham" value="@item.GiaBan"
+                                   oninput="amountchange('@item.IdSanPham')" onblur="UpdateItem('@item.IdSanPham',this)"
+                                   onfocus="GetCurrentValue(this)" />
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="col-lg-2">
+                    <div class="row">
+                        <div class="col-xs-3 hidden-lg">
+                            <span>
+                                Số lượng:
+                            </span>
+                        </div>
+                        <div class="col-xs-9">
+                            <input type="number" class="form-control" id="soluong_@item.IdSanPham" value="@item.SoLuong"
+                                   oninput="amountchange('@item.IdSanPham')"
+                                   onblur="UpdateItem('@item.IdSanPham',this)"
+                                   onfocus="GetCurrentValue(this)" />
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="col-lg-2">
+                    <div class="row">
+                        <div class="col-xs-3 hidden-lg">
+                            <span class="hidden-lg">
+                                Thành tiền:
+                            </span>
+                        </div>
+                        <div class="col-xs-9">
+                            <input type="text" class="thanhtien form-control"
+                                   id="thanhtien_@item.IdSanPham"
+                                   value="@item.TongTien"
+                                   onblur="UpdateItem('@item.IdSanPham',this)"
+                                   onfocus="GetCurrentValue(this)" />
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-2">
+                    <div class="visible-lg">
+                        <a href="Javascript:void(0)" onclick="UpdateItem('@item.IdSanPham')">
+                            <i class="fa fa-refresh"></i>
+                        </a>
+                        -
+                        <a href="Javascript:void(0)" onclick="DeleteOrderItem('@item.IdSanPham')">
+                            <i class="fa fa-trash-o"></i>
+                        </a>
+                    </div>
+                    <div class="hidden-lg">
+                        <a href="Javascript:void(0)" onclick="UpdateItem('@item.IdSanPham')" style="position:absolute;right:0px;top:-75px;font-size:30px;">
+                            <i class="fa fa-refresh"></i>
+                        </a>
+                        <a href="Javascript:void(0)" onclick="DeleteOrderItem('@item.IdSanPham')" style="position:absolute;right:0px;top:-110px;font-size:30px">
+                            <i class="fa fa-trash-o"></i>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="row" style="border-top: solid 1px;padding-top: 10px;">
+
+            <div class="col-lg-7">
+
+            </div>
+            <div class="col-lg-5">
+                <p style="font-weight: bold;color: red;font-size: 20px ">
+                    <span>
+                        Tổng:
+                    </span>
+                    <span id="totalproductmoney">
+                        @ViewBag.totalmoney
+                    </span>
+                </p>
+            </div>
+
+        </div>
+    </div>
+   
+}
+else
+{
+    <div class="container table-responsive" style="border:solid 1px #c8c8c8;">
+        <h3 style="color:red">
+            Chưa có sản phẩm nào
+        </h3>
+
+    </div>
+}
+<div class="container" style=" border: solid 1px #c7c7c7; padding-top: 15px; background: #e4e4e4;">
+    @using (Html.BeginForm("ProcessOrders", "BanHang", FormMethod.Post, new { id = "forms", autocomplete = "off" }))
+    {
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <p class="textlable">
+                            <i class="fa fa-calendar"></i>
+                            Ngày mua: <input type="text"
+                                             class="form-control" id="buydate" name="buydate"
+                                             required autocomplete="off" />
+                        </p>
+                        <p class="textlable">
+                            <i class="fa fa-usd">
+                            </i>Tổng tiền:
+                            <input type="text" class="form-control" id="amount" value="@ViewBag.totalmoney" name="amount" required/>
+                        </p>
+                        <p class="textlable">
+                            <i class="fa fa-usd"></i>Thanh toán:
+                            <input type="text" class="form-control" id="pay" name="pay" required />
+                        </p>
+                        <p class="textlable">
+                            <i class="fa fa-usd"></i>Còn nợ:
+                            <input type="text" class="form-control" id="debt" name="debt" required />
+                        </p>
+
+                    </div>
+                    <div class="col-lg-6">
+
+                        <p class="textlable">
+                            <i class="fa fa-calendar"></i>Ngày hẹn thanh lý:
+                            <input type="text" class="form-control" id="nextdate" name="nextdate" />
+                        </p>
+                        <p class="textlable">
+                            <i class="fa fa-calendar"></i>Ngày tính lãi:
+                            <input type="text" class="form-control" id="deadline" name="deadline" />
+                        </p>
+                        <p class="textlable">
+                            <i class="fa fa-pencil-square-o"></i>
+                            Ghi chú:
+                            <textarea class="form-control" id="note" name="note" rows="4"></textarea>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div>
+                            <div>
+                                <span class="textlable">
+                                    <i class="fa fa-user"></i> Tên khách hàng:
+                                </span>
+
+                                <input type="hidden" name="idcustomer" id="idcustomer" required autocomplete="off" />
+                            </div>
+                            <div style="position:relative;margin:0px;padding:0px">
+                                <input type="text" class="form-control" name="name" id="autoCompleteCustomer" />
+                                <a class="addCustomerName" href="@Url.Action("AddCustomer","KhachHangs")">
+                                    <i class="fa fa-plus-square"
+                                       style="font-size:35px;position:absolute;top:0px;right:0px;color: #0267ff;"></i>
+                                </a>
+                                <a class="FullSearch" href="@Url.Action("FullSearch","KhachHangs")" id="AutoSearch">
+                                    <i class="fa fa-search" id="auto_SearchButtton"
+                                       style="font-size:35px;position:absolute;top:0px;right:40px;color: #0267ff;"></i>
+                                    <i class="fa fa-spinner fa-spin" id="loading_Search_icon"
+                                       style="font-size:35px;position:absolute;top:0px;right:40px;color: #0267ff;display:none"></i>
+                                </a>
+                                <div id="ShowArea" style="position: absolute;top: 35px;width: 100%;background: #ffd2d2;z-index:9;display:none">
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <p class="textlable">
+                            <i class="fa fa-calendar"></i>
+                            Ngày sinh: <input type="text" class="form-control" disabled name="birthday" id="birthday" autocomplete="off" />
+                        </p>
+                        <p class="textlable">
+                            <i class="fa fa-phone"></i>Số điện thoại:
+                            <input type="text" class="form-control" name="phone" id="phone" disabled autocomplete="off" />
+                        </p>
+                        <p class="textlable">
+                            <i class="fa fa-credit-card"></i>Số CMND:
+                            <input type="text" class="form-control" name="cmnd" disabled id="cmnd" autocomplete="off" />
+                        </p>
+                    </div>
+                    <div class="col-lg-6">
+                        <p class="textlable">
+                            <i class="fa fa-home"></i> Xã:
+                            <input type="text" class="form-control" disabled id="xa" autocomplete="off" />
+                        </p>
+                        <p class="textlable">
+                            <i class="fa fa-home"></i>
+                            Địa chỉ chi tiết:
+                            <textarea class="form-control" rows="4" disabled id="diachi"></textarea>
+                        </p>
+                        <div class="container" style="margin-top:33px">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    
+                                    <a class="form-control btn btn-danger" href="@Url.Action("CancelOrder", "BanHang")">
+                                        <i class="fa fa-times"></i> Hủy
+                                    </a>
+                                </div>
+                                <div class="col-xs-6">
+                                    <button type="submit" class="form-control btn btn-primary">
+                                        <i class="fa fa-plus"></i>
+                                        Nhập
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<style>
+    .listitem {
+        padding: 5px;
+        position: relative;
+    }
+
+        .listitem a {
+            color: #000;
+        }
+
+        .listitem:nth-child(2n) {
+            background: #c5c5c5;
+            color: #0109ff;
+        }
+
+    .listheader {
+        padding: 10px 0px;
+        background: #000000;
+        color: #fffdfd;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .inputtext {
+        width: 100px;
+        border-radius: 5px;
+        border: solid 1px #bfbdbd;
+        padding: 0px 10px;
+        font-weight: bold;
+    }
+
+    .input_sl {
+        width: 50px;
+        border-radius: 5px;
+        border: solid 1px #bfbdbd;
+        padding: 0px 10px;
+        font-weight: bold;
+    }
+</style>
+<script>
+    $('.giaban').each(function () {
+        $(this).number(true, 0);
+    });
+    $('.thanhtien').each(function () {
+        $(this).number(true, 0);
+    });
+    $('#totalimportprice').number(true, 0);
+    $('#pay').keyup(function () {
+        var tongtien = $('#amount').val();
+        var thanhtoan = $(this).val();
+        var conno = tongtien - thanhtoan;
+        $('#debt').val(conno);
+    });
+    $(function () {
+        $("#buydate").datepicker(
+            $.datepicker.regional["vi"]
+        );
+        $("#nextdate").datepicker($.datepicker.regional["vi"]);
+        $("#deadline").datepicker($.datepicker.regional["vi"]);
+        $('#completedate').datepicker($.datepicker.regional["vi"]);
+        $('#promotion').number(true, 0);
+        $('#amount').number(true, 0);
+        $('#pay').number(true, 0);
+        $('#debt').number(true, 0);
+        $('#birthday').datepicker($.datepicker.regional["vi"]);
+        $('#totalproductmoney').number(true, 0);
+        $('.money').number(true, 0);
+        $('.addCustomerName').colorbox();
+        $('.FullSearch').colorbox({ width: "80%", height: "80%" });
+    });
+    var oldvalue;
+    function GetCurrentValue(text) {
+        oldvalue = $(text).val();
+    }
+    function amountchange(id) {
+        var giaban = $('#giaban_' + id).val().replace(/,/g, '')
+        var soluong = $('#soluong_' + id).val().replace(/,/g, '');
+        var gianhap = $('#gianhap_' + id).text().replace(/,/g, '');
+        var tongnhap = parseFloat(gianhap) * soluong;
+        var thanhtien = soluong * giaban;
+        $('#thanhtien_' + id).val(thanhtien);
+        $('#tongnhap_' + id).text(tongnhap).number(true, 0);
+    }
+    function UpdateItem(id, text) {
+            var newval = $(text).val();
+            if (oldvalue.trim().toUpperCase() != newval.trim().toUpperCase()) {
+                var giaban = $('#giaban_' + id).val();
+                var soluong = $('#soluong_' + id).val();
+                var trongkho = $('#instock_' + id).text().trim();
+                var thanhtien = $('#thanhtien_' + id).val();
+                if (parseInt(soluong) > parseInt(trongkho)) {
+                    Notify("Số lượng tồn không đủ");
+                    return false;
+                } else {
+                    $.ajax({
+                        url: '@Url.Action("UpdateOrderDetail","BanHang")',
+                        data: { id: id, saleprice: giaban, quality: soluong, amount: thanhtien },
+                        success: function (data) {
+                            Notify("Cập nhật thành công");
+                            var json = $.parseJSON(data);
+                            for (var i = 0; i < json.length; i++) {
+                                UpdateDiv(json[i].code, json[i].message);
+                                if (json[i].code == 'totalproductmoney') {
+                                    $('#amount').val(json[i].message);
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+    }
+    function DeleteOrderItem(id) {
+            $.ajax({
+                url: '@Url.Action("DeleteOrderItem", "BanHang")',
+                data: { id: id },
+                success: function (data) {
+                    Notify("Cập nhật thành công");
+                    var json = $.parseJSON(data);
+                    for (var i = 0; i < json.length; i++) {
+                        UpdateDiv(json[i].code, json[i].message);
+                        if (json[i].code == 'totalproductmoney') {
+                            $('#amount').val(json[i].message);
+                        }
+                    }
+
+                    $('#row_' + id).remove();
+                }
+            });
+    }
+    $('#autoCompleteCustomer').keyup(function () {
+        var q = $('#autoCompleteCustomer').val();
+        if (q.length % 3 == 0 && q.length > 0) {
+            $.ajax({
+                    url: '@Url.Action("AutoCompleteCustomer", "KhachHangs")',
+                    data: {q:q},
+                    success: function (result) {
+                        $("#ShowArea").show();
+                        $("#ShowArea").html(result);
+                        $('#auto_SearchButtton').show();
+                        $('#loading_Search_icon').hide();
+                    },
+                    beforeSend: function () {
+                        $('#auto_SearchButtton').hide();
+                        $('#loading_Search_icon').show();
+                    }
+             });
+        }
+    })
+    $('#forms').submit(function () {
+        var idcus = $('#idcustomer').val();
+        if (idcus == '') {
+            Notify("Bạn chưa nhập thông tin khách hàng");
+            return false;
+        }
+    });
+    function AddCustomerSuccess(data) {
+        $('#cboxClose').click();
+        var json = $.parseJSON(data);
+        $('#autoCompleteCustomer').val(json["Ten"]);
+        $('#birthday').val(json["NgaySinh"]);
+        $('#diachi').val(json["DiaChi"].trim());
+        $('#phone').val(json["SoDienThoai"]);
+        $('#idcustomer').val(json["Id"]);
+        $('#cmnd').val(json["CMND"]);
+        $('#ShowArea').hide();
+    }
+    $('#CancelButton').click(function () {
+        
+    });
+</script>

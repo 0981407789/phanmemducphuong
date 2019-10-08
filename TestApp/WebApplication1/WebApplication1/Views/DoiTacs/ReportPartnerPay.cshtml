@@ -1,0 +1,165 @@
+﻿@model List<WebApplication1.Models.CuaHangTraNo>
+
+@using (Html.BeginForm("ReportPartnerPay", "DoiTacs", FormMethod.Get))
+{
+    <div class="container topinputarea">
+        <div class="row">
+            <h4 class="headertext">
+                <i class="fa fa-bar-chart"></i>  Báo cáo <i class="fa fa-chevron-right"></i> Trả nợ đối tác
+            </h4>
+        </div>
+        <div class="row baocaotop">
+            <div class="col-lg-5">
+                <p class="row">
+                    <span class="col-lg-3 col-xs-3">
+                        <i class="fa fa-calendar"></i>  Từ ngày
+                    </span>
+                    <span class="col-lg-9 col-xs-9">
+                        <input type="text" class="form-control" id="fromdate" name="f" value="@ViewBag.f" />
+                    </span>
+
+                </p>
+            </div>
+            <div class="col-lg-5">
+                <p class="row">
+                    <span class="col-lg-3 col-xs-3">
+                        <i class="fa fa-calendar"></i>  Đến ngày
+                    </span>
+                    <span class="col-lg-9 col-xs-9">
+                        <input type="text" class="form-control" id="todate" name="t" value="@ViewBag.t" />
+                    </span>
+
+                </p>
+            </div>
+            <div class="col-lg-2">
+                <button type="submit" class="form-control btn btn-primary" style="font-weight:bold">
+                    <i class="fa fa-file-o"></i>
+                    Báo cáo
+                </button>
+
+            </div>
+        </div>
+    </div>
+}
+
+<div class="container" id="DanhSachSanPham">
+
+    <p style="background: #d6d6d6; color: #ff0000; padding: 10px; margin-bottom: 0px; font-weight: bold; font-size: 20px;" class="row">
+        Số tiền : <span id="tongtienall" class="money"></span>
+        <span>+</span>
+        Phí khác : <span id="tongphikhacall" class="money"></span>
+        <span>
+            =
+        </span>
+        <span id="tongall" class="money"></span>
+    </p>
+
+    <div class="row tbheader visible-lg" style="margin-bottom:10px">
+        <div class="col-lg-2">
+            Ngày tháng
+        </div>
+        <div class="col-lg-2">
+            Đối tác
+        </div>
+        <div class="col-lg-2">
+            Thanh toán
+        </div>
+        @*<div class="col-lg-2">
+                Phí khác
+            </div>*@
+        <div class="col-lg-2">
+            Người trả
+        </div>
+        <div class="col-lg-2">
+            Chứng từ
+        </div>
+        <div class="col-lg-2">
+            Ghi chú
+        </div>
+    </div>
+
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            <div class="tr row tbitem">
+                <div class="col-lg-2">
+                    <span class="date">
+                        @item.NgayTra
+                    </span>
+                </div>
+                <div class="col-lg-2">
+                    @if (item.IdNhapHang.HasValue)
+                    {
+                        <span>
+                            @Html.Action("DoiTacTheoIdNhapHang", "DoiTacs", new { id = item.IdNhapHang })
+                        </span>
+                    }
+
+                </div>
+                <div class="col-lg-2">
+                    <div>
+                        Số tiền: <span class="money sotientra"> @item.SoTienTra</span>
+                    </div>
+                    <div class="">
+                        <span>
+                            Phí khác:
+                        </span>
+                        @if (item.PhiKhac.HasValue)
+                        {
+
+                            /**/<span class="money phikhac">
+                                @item.PhiKhac
+                            </span>
+                        }
+                        else
+                        {
+                            <span>
+                                0
+                            </span>
+                        }
+
+
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    @item.NguoiTra
+                </div>
+                <div class="col-lg-2">
+                    @item.ChungTu
+                </div>
+                <div class="col-lg-2">
+                    @item.GhiChu
+                </div>
+
+            </div>
+        }
+    }
+
+
+</div>
+<script>
+    $("#fromdate").datepicker(
+        $.datepicker.regional["vi"]
+    );
+    $("#todate").datepicker(
+        $.datepicker.regional["vi"]
+    );
+    var tongno = 0;
+    var tongphikhac = 0;
+    var tongall = 0;
+    $('.tr').each(function () {
+        var conno = $(this).find('.sotientra');
+        var phikhac = $(this).find('.phikhac');
+        var sotien = $(conno).text().trim().replace(/,/g, '');
+        var phikhactien = $(phikhac).text().trim().replace(/,/g, '');
+
+        tongphikhac += parseFloat(phikhactien);
+        tongno += parseFloat(sotien);
+
+
+    });
+    $('#tongtienall').text(tongno);
+    $('#tongphikhacall').text(tongphikhac);
+    $('#tongall').text(tongno + tongphikhac);
+</script>

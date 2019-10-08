@@ -1,0 +1,14 @@
+﻿@model List<WebApplication1.Models.Xa>
+<select id="cbbxa" class="xa form-control">
+    <option>Xin mời chọn</option>
+    @foreach (var item in Model)
+    {
+        <option value="@item.Id">@item.Ten</option>
+    }
+</select>
+<script>
+    $('#cbbxa').change(function () {
+        $('#idxa').val($(this).val());
+        $('#xa').val($(this).find(":selected").text());
+    });
+</script>

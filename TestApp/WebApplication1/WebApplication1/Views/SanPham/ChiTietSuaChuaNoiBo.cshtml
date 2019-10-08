@@ -1,0 +1,41 @@
+﻿@model List<WebApplication1.Models.ChiTietSuaChuaNoiBo>
+
+
+@*<div class="row visible-lg row-header">
+    <div class="col-lg-3">
+        Sản phẩm
+    </div>
+    <div class="col-lg-3">
+        Số lượng
+    </div>
+    <div class="col-lg-3">
+        Giá
+    </div>
+    <div class="col-lg-3">
+        Thành tiền
+    </div>
+</div>*@
+@foreach (var item in Model)
+{
+    
+    <div class="col-lg-3">
+        @Html.Action("LoaiSanPhamByIdSanPham", "LoaiSanPhams", new { id = item.IdPhuTung })
+    </div>
+    <div class="col-lg-3">
+        @item.SoLuong
+    </div>
+    <div class="col-lg-3">
+        <span class="money">
+            @item.GiaTien
+        </span>
+    </div>
+    <div class="col-lg-3">
+        <span class="money">
+            @item.ThanhTien
+        </span>
+    </div>
+}
+
+<script>
+    $('.money').number(true, 0);
+</script>

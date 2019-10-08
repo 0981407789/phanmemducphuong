@@ -1,0 +1,141 @@
+﻿@model List<WebApplication1.Models.KhachHang>
+@using (Html.BeginForm("SearchCustomer", "KhachHangs", FormMethod.Get))
+{
+    <div class="container topinputarea">
+        <div class="row">
+            <h4 class="headertext">
+                <i class="fa fa-bar-chart"></i> Tìm kiếm khách hàng
+            </h4>
+        </div>
+        <div class="row" style="margin:10px 0px">
+            <div class="col-lg-6" style="margin-bottom:5px">
+                <div class="row">
+                    <span class="textlable col-xs-3" style="margin-top:5px">
+                        <i class="fa fa-text-width"></i>
+                        Từ khóa
+                    </span>
+                    <div class="col-xs-9">
+                        <input type="text" class="mysearchinput" style="" id="keyword" name="q" value="@ViewBag.q" />
+                        <button type="submit" class="myserachbutton" style="" id="bntSearch">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div>
+
+                    <button type="button" class="myserachbutton form-control" style="" id="btnAddUser">
+                        <i class="fa fa-user-plus"></i>
+                        Thêm Khách Hàng
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+
+<div class="container" id="DanhSachSanPham">
+  
+    <div class="row tbheader visible-lg">
+        <div class="col-lg-3">
+            Tên
+        </div>
+        <div class="col-lg-2">
+            Điện thoại
+        </div>
+        <div class="col-lg-2">
+            CMND
+        </div>
+        <div class="col-lg-3">
+            Địa chỉ 
+        </div>
+        <div class="col-lg-2">
+            Ngày sinh
+        </div>
+    </div>
+    @if (Model!=null)
+    {
+        foreach (var item in Model)
+        {
+            <div class="row tbitem">
+                <div class="col-lg-3">
+                    <p>
+                        <span class="hidden-lg" style="float:left;font-weight:bold;margin-right:5px">
+                            Tên: 
+                        </span>
+                        <span style="font-weight:bold;text-transform:uppercase">
+                            <a href="@Url.Action("ChiTietKh", "KhachHangs", new { id = item.Id })" style="color:#f00">
+                                @item.Ten
+                            </a>
+                        </span>
+                    </p>
+                   
+                  
+                </div>
+                <div class="col-lg-2">
+                    <p>
+
+
+                        <span class="hidden-lg" style="float:left;font-weight:bold;margin-right:5px">
+                            Điện thoại:
+                        </span>
+                        <span>
+                            @item.SoDienThoai
+                        </span>
+                    </p>
+                </div>
+                <div class="col-lg-2">
+                    <p>
+                        <span class="hidden-lg" style="float:left;font-weight:bold;margin-right:5px">
+                            CMND:
+                        </span>
+                        <span>
+                            @item.CMND
+
+                        </span>
+                    </p>
+                   
+                   
+                </div>
+                <div class="col-lg-3">
+                    <p>
+
+
+                        <span class="hidden-lg" style="float:left;font-weight:bold;margin-right:5px">
+                            Địa chỉ:
+                        </span>
+                        <span>
+                            @item.DiaChi - @Html.Action("GetTenXa", "Xas", new { id = item.IdXa })
+                        </span>
+                    </p>
+                </div>
+                <div class="col-lg-2">
+                    <p>
+                        <span class="hidden-lg" style="float:left;font-weight:bold;margin-right:5px">
+                            Ngày sinh:
+                        </span>
+                        <span>
+                            @item.NgaySinh
+                        </span>
+                    </p>
+                </div>
+            </div>
+        }
+    }
+</div>
+<script>
+    $('#btnAddUser').click(function () {
+        $.colorbox({
+            href:"@Url.Action("AddCustomer","KhachHangs")"
+        });
+    });
+    function AddCustomerSuccess() {
+        $('#cboxClose').click();
+    }
+</script>
+<style>
+   
+  
+</style>

@@ -1,0 +1,66 @@
+﻿@model WebApplication1.Models.LoaiSanPham
+
+@{
+    ViewBag.Title = "Edit";
+}
+<div class='container'>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div>
+            <h4>Cập nhật loại sản phẩm</h4>
+            <hr />
+
+            @Html.ValidationSummary(true)
+
+            @Html.HiddenFor(model => model.Id)
+
+            <div class='row'>
+                <div class='col-lg-2'>
+                    Tên
+                </div>
+                <div class='col-lg-10'>
+                    @Html.TextBoxFor(model => model.Ten, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Ten)
+                </div>
+            </div>
+            <p></p>
+
+            <div class='row'>
+                <div class='col-lg-2'>
+                    Danh mục cha
+                </div>
+                <div class='col-lg-10'>
+                    @if (Model.IdCha.HasValue)
+                    {
+                        @Html.Action("LoaiSanPhamById", new { id = Model.IdCha })
+                        @Html.HiddenFor(model => model.IdCha, new { @class = "form-control" })
+                    }
+                    else
+                    {
+                        <span>
+                            @Html.Action("SelectParent")
+                        </span>
+                    }
+                </div>
+            </div>
+            <p></p>
+
+            <div class="row">
+                <p></p>
+                <div class="col-xs-6">
+                    <input type="submit" value="Cập nhật" class="btn btn-primary form-control " />
+                </div>
+                <div class="col-xs-6">
+                    <a class="btn btn-danger form-control" href="@Url.Action("Delete",new {id=Model.Id })"> Xóa</a>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("Danh sách", "Index")
+    </div>
+</div>

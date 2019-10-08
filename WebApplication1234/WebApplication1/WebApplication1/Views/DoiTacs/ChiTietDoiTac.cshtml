@@ -1,0 +1,116 @@
+﻿@model WebApplication1.Models.DoiTac
+<div class="container topinputarea">
+    <div class="row">
+        <h4 class="headertext">
+            <i class="fa fa-bar-chart"></i> Thông tin đối tác
+        </h4>
+    </div>
+    <div class="row">
+
+        <div class="col-lg-4">
+            <div class="row">
+                <div class="col-xs-4">
+                    <i class="fa fa-user"></i>  Tên
+                </div>
+                <div class="col-xs-8">
+                    @Html.TextBoxFor(m => m.Ten, new { @class = "form-control" })
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-4">
+            <div class="row">
+                <div class="col-xs-4">
+                    <i class="fa fa-phone"></i>Điện thoại
+                </div>
+                <div class="col-xs-8">
+                    @Html.TextBoxFor(m => m.SoDienThoai, new { @class = "form-control" })
+                </div>
+            </div>
+            
+        </div>
+        <div class="col-lg-4">
+            <div class="row">
+                <div class="col-xs-4">
+                    <i class="fa fa-credit-card"></i> Số tài khoản
+                </div>
+                <div class="col-xs-8">
+                    @Html.TextBoxFor(m => m.SoTaiKhoan, new { @class = "form-control" })
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-4">
+            <div class="row">
+                <div class="col-xs-4">
+                    <i class="fa fa-users"></i> Đối tượng:
+                </div>
+                <div class="col-xs-8">
+                    @Html.TextBoxFor(m => m.KhachLe, new { @class = "form-control" })
+
+                    @*@if (Model.KhachLe.HasValue)
+                        {
+                            if (Model.KhachLe.Value)
+                            {
+                                <span>Khách lẻ</span>
+                            }
+                            else
+                            {
+                                <span>Nhà cung cấp</span>
+                            }
+                        }*@
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="row">
+                <div class="col-xs-4">
+                    <i class="fa fa-home"></i>  Địa chỉ
+                </div>
+                <div class="col-xs-8">
+                    @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control" })
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+<div class="container">
+    <div class="row">
+        Ngày nhập: <input type="text" id="ngaynhap" name="ngaynhap" />
+        Tất cả: <input type="radio" id="rad" value="1" name="rad" />
+        Còn nợ: <input type="radio" id="rad" value="2" name="rad" />
+        Đã thanh toán: <input type="radio" id="rad" value="3" name="rad" />
+    </div>
+</div>
+
+<div id="DanhSachSanPham" class="container table-responsive">
+    @Html.Action("DonHangTheoDoiTacPage", "SanPham", new { id = Model.Id, page = 1 })
+</div>
+<div class="container" style="border:solid 1px #b0b0b0">
+    <p style="margin: 0px;font-size: 20px;font-weight: bold;">Trang</p>
+    <ul id="pagination" style="margin:0px">
+        @for (int i = 1; i <= ViewBag.totalpage; i++)
+        {
+            <li>
+                @i
+            </li>
+        }
+    </ul>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#pagination').twbsPagination({
+        totalPages: @ViewBag.totalpage+'',
+        visiblePages: 7,
+            onPageClick: function (event, page) {
+                var id =@Model.Id+'';
+                $('#DanhSachSanPham').load('@Url.Action("DonHangTheoDoiTacPage", "SanPham")?id=' + id + '&&page=' + page);
+        }
+    });
+    });
+</script>

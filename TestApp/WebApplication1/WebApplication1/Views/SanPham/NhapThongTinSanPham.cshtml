@@ -1,0 +1,267 @@
+﻿@model WebApplication1.Models.SanPham
+
+
+@using (Ajax.BeginForm("NhapThongTinSanPham", "SanPham", new AjaxOptions()
+{
+    HttpMethod = "Post",
+    OnBegin = "BeginAdd",
+    OnSuccess = "AddSuccess"
+}, new
+{
+    id = "forms"
+}))
+{
+    @Html.AntiForgeryToken()
+    <div class="col-lg-4">
+        @Html.HiddenFor(m => m.IdNhapHang)
+        <div class='row chekboxabc' style="">
+            <div class='col-xs-4'>
+                <label class="radio-inline">
+                    <input type="radio" name="xephutung" value="1" class="" style="height: 30px;width: 30px;" checked> Xe
+                </label>
+            </div>
+            <div class='col-xs-8'>
+                <label class="radio-inline">
+                    <input type="radio" name="xephutung" value="0" class="" style="height: 30px;width: 30px;"> Phụ tùng
+                </label>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-lg-5'>
+                <span class="textlable addproduct">
+                    <i class="fa fa-th-list"></i>
+                    Danh mục:
+                </span>
+            </div>
+            <div class='col-lg-7'>
+                <div id="parent">
+                    @Html.Action("SelectParent", "LoaiSanPhams")
+                </div>
+            </div>
+        </div>
+        <p></p>
+        <div class='row'>
+            <div class='col-lg-5'>
+                <span class="textlable addproduct">
+                    <i class="fa fa-th-list"></i>
+                    Loại:
+                </span>
+            </div>
+            <div class='col-lg-7'>
+                <div id="child">
+                    <select disabled class="form-control">
+                        <option>Chọn danh mục</option>
+                    </select>
+                </div>
+                @Html.HiddenFor(model => model.IdLoai, new { @class = "form-control", id = "IdLoai" })
+            </div>
+        </div>
+        <p></p>
+        <div class='row'>
+            <div class='col-lg-5'>
+                <span class="textlable addproduct">
+                    <i class="fa fa-usd"></i> Giá nhập:
+                </span>
+            </div>
+            <div class='col-lg-7'>
+                <input type="text" class="form-control" required id="gianhap_123" name="gianhap" />
+            </div>
+        </div>
+        <p></p>
+        <div class='row'>
+            <div class='col-lg-5'>
+                <span class="textlable addproduct">
+                    <i class="fa fa-usd"></i> Giá bán đề xuất
+                </span>
+            </div>
+            <div class='col-lg-7'>
+                <input type="text" class="form-control" required id="giaban_123" name="giaban" />
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class='row'>
+            <div class='col-lg-5'>
+                <span class="textlable addproduct">
+                    <i class="fa fa-list-ol"></i> Số lượng:
+                </span>
+
+            </div>
+            <div class='col-lg-7'>
+                @Html.TextBoxFor(model => model.SoLuongNhap, new { @class = "form-control", id = "SoLuong" })
+            </div>
+        </div>
+        <p></p>
+        <div class='row'>
+            <div class='col-lg-5'>
+                <span class="textlable addproduct">
+                    <i class="fa fa-university"></i> Cửa hàng
+                </span>
+            </div>
+            <div class='col-lg-7'>
+                @Html.Action("SelectCuaHang", "CuaHangs")
+                @Html.HiddenFor(model => model.IdCuaHang, new { @class = "form-control", id = "IdCuaHang" })
+            </div>
+        </div>
+        <p></p>
+        <div class='row'>
+            <div class='col-lg-5'>
+
+                <span class="textlable addproduct">
+                    <i class="fa fa-barcode"></i> Số khung:
+                </span>
+            </div>
+            <div class='col-lg-7'>
+                @Html.TextBoxFor(model => model.SoKhung, new { @class = "form-control" })
+            </div>
+        </div>
+        <p></p>
+        <div class='row'>
+            <div class='col-lg-5'>
+                <span class="textlable addproduct">
+                    <i class="fa fa-barcode"></i> Số máy:
+                </span>
+            </div>
+            <div class='col-lg-7'>
+                @Html.TextBoxFor(model => model.SoMay, new { @class = "form-control" })
+
+            </div>
+        </div>
+        <p></p>
+        <div class='row'>
+            <div class='col-lg-5'>
+                <span class="textlable addproduct">
+                    <i class="fa fa-credit-card"></i> Biển số:
+                </span>
+            </div>
+            <div class='col-lg-7'>
+                @Html.TextBoxFor(model => model.BienSo, new { @class = "form-control", id = "bienso" })
+            </div>
+        </div>
+
+
+    </div>
+    <div class="col-lg-4">
+
+        <div class='row'>
+            <div class='col-lg-5'>
+                <span class="textlable addproduct">
+                    <i class="fa fa-adjust"></i>
+                    Màu sắc:
+                </span>
+            </div>
+            <div class='col-lg-7'>
+                @Html.TextBoxFor(model => model.MauSac, new { @class = "form-control", id = "mausac" })
+            </div>
+        </div>
+        <p></p>
+        <div class='row'>
+            <div class='col-lg-5'>
+                <span class="textlable addproduct">
+                    <i class="fa fa-pencil"></i> Ghi chú:
+                </span>
+            </div>
+            <div class='col-lg-7'>
+                @Html.TextAreaFor(model => model.GhiChu, new { @class = "form-control", id = "ghichu", rows = 5 })
+            </div>
+        </div>
+        <div class="row" style="margin-top:7px">
+            <div class="col-xs-6">
+                <p></p>
+                <button type="reset" class="form-control btn btn-danger">
+                    <i class="fa fa-times"></i>
+                    Hủy
+                </button>
+
+            </div>
+            <div class="col-xs-6">
+                <p></p>
+                <button type="submit" class="form-control btn btn-primary" id="btnAdd">
+                    <i class="fa fa-plus"></i>
+                    Nhập
+                </button>
+            </div>
+        </div>
+    </div>
+}
+<style>
+    .addproduct {
+        padding-top: 8px;
+        display: inline-block;
+    }
+
+    .chekboxabc {
+        font-size: 25px;
+        /* font-weight: bold; */
+        color: #1060dc;
+        border: solid 1px #c3c3c3;
+        /* border-radius: 10px; */
+        margin: 0px;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+        background: #e6e6e6;
+        box-shadow: 0 0 2px 2px #d2d2d2;
+        text-transform: uppercase;
+    }
+</style>
+<script>
+    $('#forms').submit(function () {
+        var idch = $('#IdCuaHang').val();
+        var idloai = $('#IdLoai').val();
+        if (idch == '') {
+            Notify("Bạn chưa chọn cửa hàng");
+            return false;
+        } else if (idloai == '') {
+            Notify("Bạn chưa chọn loại sản phẩm");
+            return false;
+        }
+    });
+    $(document).ready(function () {
+        $('#gianhap_123').number(true, 0);
+        $('#giaban_123').number(true, 0);
+        $('#SoLuong').val('1');
+    });
+    function BeginAdd() {
+        $("#btnAdd").attr("disabled", true);
+
+    }
+    function AddSuccess(data) {
+        //$('#gianhap_123').val('');
+        //$('#giaban_123').val('');
+        //$('#bienso').val('');
+        //$('#mausac').val('');
+        //$('#ghichu').val('');
+        //$('.selectLoaiSanPham').val('');
+        //$('#child').val('');
+        $("#btnAdd").removeAttr("disabled");
+        $('#ListSanPham').load('@Url.Action("ListSanPhamTheoLo", "SanPham")?id=' + data);
+    }
+    $('#selectCuaHang').change(function () {
+        $('#IdCuaHang').val($(this).val());
+    });
+
+    function selectcatechange(div) {
+        var a = $(div).parent().attr('id');
+        var id = $(div).val();
+        if (id == '') {
+            if (a == 'parent') {
+                $('#child').find('#selectLoaiSanPham').attr('disabled', true);
+            }
+            return false;
+        }
+        else if (a == 'parent') {
+            if (id == '') {
+                $('#child').find('#selectLoaiSanPham').attr('disabled', true);
+            }
+            $.ajax({
+                url: '@Url.Action("SelectChild", "LoaiSanPhams")',
+                data: { id: id },
+                success: function (data) {
+                    $('#child').html(data);
+                }
+            });
+        } else if (a == 'child') {
+            $('#IdLoai').val(id);
+        }
+    }
+</script>

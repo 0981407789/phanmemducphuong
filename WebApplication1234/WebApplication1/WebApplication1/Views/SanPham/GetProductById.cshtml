@@ -1,0 +1,23 @@
+﻿@model WebApplication1.Models.SanPham
+<div class="col-lg-3">
+    <div class="row">
+        <div class="hidden-lg col-xs-3">
+            Sản phẩm:
+        </div>
+        <div class="col-xs-9" style="font-weight:bold">
+            @Html.Action("LoaiSanPhamById", "LoaiSanPhams", new { id = Model.IdLoai })
+        </div>
+    </div>
+
+
+</div>
+<div class="soluongtontd col-lg-1">
+    <div class="row">
+        <div class="hidden-lg col-xs-3" >
+            Tồn: 
+        </div>
+        <div class="money soluong col-xs-9" id="instock_@Model.Id">
+            @Model.SoLuongTon
+        </div>
+    </div>
+</div>

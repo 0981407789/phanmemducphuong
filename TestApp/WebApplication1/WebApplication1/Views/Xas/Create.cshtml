@@ -1,0 +1,40 @@
+﻿@model WebApplication1.Models.Xa
+
+@{
+    ViewBag.Title = "Create";
+}
+<div class='container'>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div>
+            <h4>Thêm mới xã</h4>
+            <hr />
+            @Html.ValidationSummary(true)
+
+            <div class='row'>
+                <div class='col-lg-2'>
+                    Tên xã
+                </div>
+                <div class='col-lg-10'>
+                    @Html.TextBoxFor(model => model.Ten, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Ten)
+                </div>
+            </div>
+            <p></p>
+
+            <div>
+                <div>
+                    <p></p>
+                    <input type="submit" value="Thêm" class="btn btn-primary form-control" />
+                </div>
+            </div>
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("Danh sách", "Index")
+    </div>
+</div>
+

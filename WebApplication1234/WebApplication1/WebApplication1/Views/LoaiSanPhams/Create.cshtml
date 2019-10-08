@@ -1,0 +1,62 @@
+﻿@model WebApplication1.Models.LoaiSanPham
+
+@{
+    ViewBag.Title = "Create";
+}
+<div class='container'>
+    <h2>Thêm mới Loại Sản phẩm</h2>
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div>
+            <hr />
+            @Html.ValidationSummary(true)
+
+            <div class='row'>
+                <div class='col-lg-2'>
+                    Tên
+
+                </div>
+                <div class='col-lg-10'>
+                    @Html.TextBoxFor(model => model.Ten, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Ten)
+                </div>
+            </div>
+            <p></p>
+
+            <div class='row'>
+                <div class='col-lg-2'>
+                    Danh mục cha
+
+                </div>
+                <div class='col-lg-10'>
+                    @Html.Action("SelectParent")
+                    @Html.HiddenFor(model => model.IdCha, new { @class = "form-control", id = "parent" })
+
+                </div>
+            </div>
+            <p></p>
+            <p></p>
+            <div>
+                <div>
+                    <p></p>
+                    <input type="submit" value="Thêm" class="btn btn-primary form-control" />
+                </div>
+            </div>
+            <p></p>
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("Danh sách", "Index")
+    </div>
+</div>
+<script>
+    function selectcatechange(div) {
+        var id = $(div).val();
+        $('#parent').val(id);
+    }
+</script>

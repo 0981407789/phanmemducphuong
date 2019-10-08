@@ -1,0 +1,72 @@
+﻿@model WebApplication1.Models.KhachHang
+@{
+    ViewBag.Title = "Chi tiết khách hàng";
+}
+@using (Html.BeginForm())
+{
+    <div class="container topinputarea" style="padding-top:0px;padding-bottom:10px">
+        <div class="row">
+            <h4 class="headertext">
+                <i class="fa fa-user"></i>   Thông tin khách hàng
+            </h4>
+        </div>
+        <div class="row" style="margin-top:5px">
+            <div class="col-lg-4">
+                <i class="fa fa-user"></i>  Tên:
+                @Html.TextBoxFor(m => m.Ten, new { @class = "form-control" })
+            </div>
+            <div class="col-lg-4">
+                <i class="fa fa-phone"></i>   Điện thoại:
+                @Html.TextBoxFor(m => m.SoDienThoai, new { @class = "form-control" })
+
+            </div>
+            <div class="col-lg-4">
+                <i class="fa fa-credit-card"></i>
+                CMND:
+                @Html.TextBoxFor(m => m.CMND, new { @class = "form-control" })
+            </div>
+            <div class="col-lg-4">
+                <i class="fa fa-calendar"></i> Ngày sinh:
+                @Html.TextBoxFor(m => m.NgaySinh, new { @class = "form-control" })
+
+            </div>
+            <div class="col-lg-4">
+                <i class="fa fa-home"></i>  Địa chỉ:
+                @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control" })
+
+            </div>
+            <div class="col-lg-4">               
+                <i class="fa fa-home"></i>  Xã:
+                @Html.Action("selectxa", "xas")
+                @Html.HiddenFor(m => m.IdXa, new { @class = "form-control", id = "idxa" })
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-4 pull-right">
+                <button type="submit" class="btn btn-primary form-control" style="margin-top:10px;font-weight:bold">
+                    <i class="fa fa-download"></i> Lưu
+                </button>
+            </div>
+
+        </div>
+    </div>
+}
+<div class="container" id="DanhSachSanPham" style="">
+    <div class="row">
+        <h4 class="headertext">
+            <i class="fa fa-plus"></i> đơn hàng
+        </h4>
+    </div>
+
+
+    @Html.Action("DonHangTheoKh", "KhachHangs", new { id = Model.Id })
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.money').number(true, 0);
+        $('#cbbxa').val('@Model.IdXa');
+    });
+</script>

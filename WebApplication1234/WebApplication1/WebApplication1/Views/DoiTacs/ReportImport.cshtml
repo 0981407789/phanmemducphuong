@@ -1,0 +1,138 @@
+﻿@model List<WebApplication1.Models.NhapHang>
+@{
+    ViewBag.Title = "Báo cáo nhập hàng";
+}
+@using (Html.BeginForm("ReportImport", "DoiTacs", FormMethod.Get))
+{
+    <div class="container topinputarea">
+
+        <div class="row">
+            <h4 class="headertext">
+                <i class="fa fa-bar-chart"></i>  Báo cáo <i class="fa fa-chevron-right"></i> Nhập hàng
+            </h4>
+        </div>
+        <div class="row baocaotop">
+            <div class="col-lg-5">
+                <p class="row">
+
+                    <span class="col-lg-3 col-xs-3">
+                        <i class="fa fa-calendar"></i>  Từ ngày
+                    </span>
+                    <span class="col-lg-9 col-xs-9">
+                        <input type="text" class="form-control" id="fromdate" name="f" value="@ViewBag.f" />
+                    </span>
+
+                </p>
+            </div>
+            <div class="col-lg-5">
+                <p class="row">
+                    <span class="col-lg-3 col-xs-3">
+                        <i class="fa fa-calendar"></i>  Đến ngày
+                    </span>
+                    <span class="col-lg-9 col-xs-9">
+                        <input type="text" class="form-control" id="todate" name="t" value="@ViewBag.t" />
+                    </span>
+
+                </p>
+            </div>
+            <div class="col-lg-2">
+                <button type="submit" class="form-control btn btn-primary" style="font-weight:bold">
+                    <i class="fa fa-file-o"></i>
+                    Báo cáo
+                </button>
+
+            </div>
+        </div>
+    </div>
+}
+<div class="container table-responsive" id="DanhSachSanPham">
+    <p style="background: #d6d6d6; color: #ff0000; padding: 10px; margin-bottom: 0px; font-weight: bold; font-size: 20px;" class="row">
+
+        Tổng nhập: <span id="tongtien"></span>
+
+    </p>
+    <div class="row tbheader visible-lg">
+
+        <div class="col-lg-2">
+            Ngày tháng
+        </div>
+        <div class="col-lg-2">
+            Nơi nhập
+        </div>
+        <div class="col-lg-2">
+            Số tiền
+        </div>
+        <div class="col-lg-2">
+            Thanh toán
+        </div>
+        <div class="col-lg-2">
+            Còn nợ
+        </div>
+        <div class="col-lg-2">
+            Ghi chú
+        </div>
+
+
+    </div>
+    @if (Model != null)
+    {
+
+        foreach (var item in Model)
+        {
+            <div class="trrepot row tbitem">
+
+                <div class="col-lg-2">
+                    <span class="date">
+                        @item.NgayNhap
+                    </span>
+                </div>
+                <div class="col-lg-2">
+                    @Html.Action("GetNameById", "DoiTacs", new { id = item.DoiTac })
+                </div>
+                <div class="col-lg-2">
+                    <div class="money sotien">
+                        @item.TongTien
+                    </div>
+
+                </div>
+                <div class="col-lg-2">
+                    <div class="money">
+                        @item.DaTra
+                    </div>
+
+                </div>
+                <div class="col-lg-2">
+                    <div class="money">
+                        @item.ConNo
+                    </div>
+
+                </div>
+                <div class="col-lg-2">
+                    @item.GhiChu
+                </div>
+
+            </div>
+        }
+
+    }
+</div>
+
+<script>
+    $("#fromdate").datepicker(
+        $.datepicker.regional["vi"]
+    );
+    $("#todate").datepicker(
+        $.datepicker.regional["vi"]
+    );
+   $(document).ready(function () {
+        //CountTotalMoney();
+        var tongtien = 0;
+        $('.sotien').each(function () {
+            var sotien = $(this).text().replace(/,/g, '');
+            tongtien += parseFloat(sotien);
+            $('#tongtien').text(tongtien);
+            $('#tongtien').number(true, 0);
+        });
+    });
+</script>
+

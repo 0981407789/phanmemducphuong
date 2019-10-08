@@ -1,0 +1,244 @@
+﻿@{
+    ViewBag.Title = "Chi tết đơn hàng";
+}
+<div class="container">
+    <div style="margin-top:20px;margin-bottom:20px">
+        <input type="button" value="In hợp đồng" class="btn btn-primary form-control" onclick="PrintElem()" id="printcontract" />
+    </div>
+
+
+    <div id="printarea" style="width: 1200px;margin-left: auto;margin-right: auto;font-size: 30px;">
+        <div style="text-align:center;text-transform:uppercase">Cộng hòa - xã hội - chủ nghĩa - việt nam</div>
+        <div style="text-align:center;">Độc lập - Tự Do - Hạnh Phúc</div>
+        <p style="text-align:center;font-weight:bold;text-transform:uppercase;font-size:40px;margin-top:40px;margin-bottom:40px">
+            Hợp đồng mua bán
+        </p>
+        <div>
+            <p style="font-style:italic">
+                Hôm nay ngày: <span id="ngaythang"></span>
+            </p>
+            <p></p>
+            Chúng tôi gồm có
+        </div>
+        <div style="text-transform:uppercase;font-weight:bold;">
+            Bên Bán (Bên A): Cửa hàng xe máy - xe điện đức Phương
+        </div>
+        <div style="margin-left:20px">
+            <div>Địa chỉ: Số nhà 196 tuệ tĩnh hồng phong Mậu A - Văn Yên - Yên Bái</div>
+            <div>Số điện thọai: 0981.407.789 - 0981.447.789</div>
+            <div style="text-transform:uppercase;font-weight:bold;">
+                Đại Diện: Ông Vũ Văn Phương
+            </div>
+        </div>
+        <div style="text-transform:uppercase;font-weight:bold;">
+            Bên mua (Bên B):
+        </div>
+        <div style="margin-left:20px">
+            @Html.Action("GetCustomerById", "KhachHangs", new { id = ViewBag.idkh })
+        </div>
+        <div style="font-weight:bold">
+            Hai bên thống nhất thoả thuận nội dung hợp đồng như sau:
+        </div>
+        <div style="font-style:italic">
+            Bên A bán cho bên B:
+        </div>
+        <table id="listproduct" class="table" style="border:solid 1px #000;width:100%" border="1">
+            <thead>
+                <tr>
+                    <th>
+                        Sản phẩm
+                    </th>
+                    <th>
+                        Giá bán
+                    </th>
+                    <th>
+                        Số lượng
+                    </th>
+                    <th>
+                        Thành tiền
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @{
+                    List<WebApplication1.Models.ChiTietDonHang> chiTietDonHang =
+                          (List<WebApplication1.Models.ChiTietDonHang>)ViewBag.sp;
+                    if (chiTietDonHang != null)
+                    {
+                        foreach (var item in chiTietDonHang)
+                        {
+                            <tr>
+                                <td class="sanpham">
+                                    @Html.Action("SanPhamById", "SanPham", new { id = item.IdSanPham })
+                                </td>
+                                <td class="money giaban">
+                                    @item.GiaBan
+                                </td>
+                                <td class="soluong">
+                                    @item.SoLuong
+                                </td>
+
+                                <td class="money thanhtien">
+                                    @item.TongTien
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                }
+            </tbody>
+        </table>
+        @{
+            WebApplication1.Models.DonHang donHang = (WebApplication1.Models.DonHang)ViewBag.dh;
+
+            <div style="margin-left:20px">
+                Tổng số tiền phải thanh toán
+                <br />
+                Bằng số:<span id="tongtienso" class="money">@donHang.SoTien</span> Đồng
+                <br />
+                Bằng chữ:<span id="tongtienchu">
+                </span> Đồng
+                <br />
+            </div>
+            <div style="margin-left:20px">
+                Số tiền đã thanh toán (Bằng số):<span id="thanhtoanso" class="money"> @donHang.DaTra</span> Đồng
+                <br />
+                Số tiền đã thanh toán (Bằng chữ ):<span id="thanhtoanchu"></span> Đồng
+                <br />
+                Còn nợ (Bằng số):<span id="connoso" class="money">@donHang.ConNo</span> Đồng
+                <br />
+                Còn nợ (Bằng chữ ):<span id="connochu"></span> Đồng
+            </div>
+            if (donHang.ConNo > 0)
+            {
+                <div>
+                    <p>
+                        Cam kết trả chậm từ ngày: <span class="date" id="ngaybanb"> @donHang.NgayBan</span> Đến ngày <span class="date" style="font-weight:bold">@donHang.NgayHen</span>
+                    </p>
+                    <p>
+                        Bắt đầu tính lãi từ ngày <span class="date" style="font-weight:bold">@donHang.NgayTinhLai</span>
+                    </p>
+                </div>
+                <div>
+                    <p>
+                        - Nếu Bên B thanh toán sai hẹn Bên A Sẽ thu hồi lại sản phẩm và hủy hợp đồng mà không cần có sự thỏa thuận nào khác của bên B
+                        <br />
+                        - Bên B phải có trách nhiệm bảo quản hàng hóa: Không được làm mất, Không được bán chuyển nhượng,
+                        Cầm cố dưới bất kỳ hình thức nào. Khi chưa thanh toán hết hợp đồng
+                    </p>
+                </div>
+            }
+
+            <p>
+                <div style="font-style:italic">
+                    Các thỏa thuận khác:
+                </div>
+                <div>
+                    - @donHang.GhiChu
+                </div>
+
+            </p>
+        }
+
+        <div style="display:inline-block;width:100%;padding:30px">
+            <div style="float:left">
+                <p style="text-transform:uppercase;font-weight:bold;font-size:20px">
+                    Đại diện bên bán
+                </p>
+                <p>
+                    &nbsp;
+                </p>
+                <p>
+                    &nbsp;
+                </p>
+
+            </div>
+            <div style="float:right;padding-right: 35px;">
+                <p style="text-transform:uppercase;font-weight:bold;font-size:20px">
+                    Đại diện bên mua
+                </p>
+                <p>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    //var chat;
+    $(document).ready(function () {
+        var adate = new Date();
+        var mon = parseInt(adate.getMonth()) + 1;
+        $('#ngaythang').text(adate.getDate() + " / " + mon + " / " + adate.getFullYear());
+        var find = ',';
+        var re = new RegExp(find, 'g');
+        //str = str.replace(re, '');
+        var tongtien = $('#tongtienso').text().replace(re, '');
+        var datra = $('#thanhtoanso').text().replace(re, '');
+        var conno = $('#connoso').text().replace(re, '');
+        //console.log(datra + "-" + tongtien + "-" + conno);
+        if ($('#ngaybanb').text() != '') {
+            $('#ngaythang').text($('#ngaybanb').text());
+        }
+
+        $('#tongtienchu').text(DocTienBangChu(tongtien));
+        $('#thanhtoanchu').text(DocTienBangChu(datra));
+        $('#connochu').text(DocTienBangChu(conno));
+        //chat = $.connection.chatHub;
+        //$.connection.hub.start().done(function () {
+        //    //console.log("Connected");
+        //});
+        //CreateImage();
+    });
+    function PrintElem() {
+        //var elem = $("#printarea").html();
+        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+        mywindow.document.write('<html><head><title>' + document.title + '</title>');
+        mywindow.document.write('</head><body >');
+
+        mywindow.document.write($('#printarea').html());
+        mywindow.document.write('</body></html>');
+
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10*/
+
+        mywindow.print();
+        mywindow.close();
+
+        return true;
+    }
+
+    //var image;
+    //function CreateImage() {
+
+    //    html2canvas(document.querySelector("#printarea")).then(canvas => {
+    //        //var canvas1 = document.body.appendChild(canvas);
+    //        image = canvas.toDataURL("image/png", 1.5);
+    //    });
+
+
+    //    //return false;
+    //}
+    @*function CreateContract() {
+
+        image = image.replace('data:image/png;base64,', '');
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("Upload", "BanHang")',
+            data: '{ "imageData" : "' + image + '" }',
+            contentType: 'application/json; charset=utf-8',
+            beforeSend: function () {
+                $('#printcontract').prop('disabled', true);
+            },
+            success: function (msg) {
+                //console.log(msg);
+                //alert('Image saved successfully !');
+                chat.server.sendPrintCommand(msg);
+                //$('#printcontract').prop('disabled', false);
+            }
+        });
+
+    }*@
+
+</script>

@@ -1,0 +1,19 @@
+﻿@model IEnumerable<WebApplication1.Models.LoaiSanPham>
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class='container'>
+    <p>
+        @Html.ActionLink("Thêm mới", "Create")
+    </p>
+    @Html.Action("ListParent")
+</div>
+<style>    
+    ul{
+       
+    }
+    ul li {
+        padding: 10px;
+    }
+</style>

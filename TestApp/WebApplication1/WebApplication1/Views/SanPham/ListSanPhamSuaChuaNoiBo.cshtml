@@ -1,0 +1,42 @@
+﻿@model List<WebApplication1.Models.SanPham>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <td>
+                Sản phẩm
+            </td>
+            <td>
+                Giá nhập
+            </td>
+            <td>
+                Tồn
+            </td>
+            <td class="detail"></td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td id="ten_@item.Id">
+                    @Html.Action("LoaiSanPhamById", "LoaiSanPhams", new { id = item.IdLoai })
+                </td>
+                <td class="money" id="gianhap_@item.Id">
+                    @item.GiaNhap
+                </td>
+                <td id="ton_@item.Id">
+                    @item.SoLuongTon
+                </td>
+                <td class="detail">
+                    <a href="Javascript:void(0)" onclick="AddProduct('@item.Id')">
+                        <i class="fa fa-chevron-right"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    $('.money').number(true, 0);
+</script>

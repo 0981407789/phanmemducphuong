@@ -1,0 +1,188 @@
+﻿<div class="container topinputarea" style="padding-top:0px">
+
+<p>
+    </p>
+    <div class="row">
+        <div class="col-lg-3">
+            <span class="textlable">
+                <i class="fa fa-text-width"></i>
+                Từ khóa
+            </span>
+            <div>
+                <input type="text" class="mysearchinput" style="" id="keyword" placeholder="Số khung số máy biển số" />
+                <button type="button" class="myserachbutton" style="" id="bntSearch">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <span class="textlable">
+                <i class="fa fa-list"></i>
+                Danh mục
+            </span>
+            <div class="" id="parent">
+                @Html.Action("SelectParent", "LoaiSanPhams")
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <span class="textlable">
+                <i class="fa fa-list"></i>
+                Loại sản phẩm
+            </span>
+            <div id="child" style="position:relative">
+                <select class="form-control">
+                    <option>Chọn danh mục</option>
+                </select>
+                <div style="font-size: 30px; position: absolute; right: 0px;top: -2px; color: blue;font-weight: bold;display:none" id="loadingchild">
+                    <i class="fa fa-spinner fa-pulse"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <span class="textlable">
+                <i class="fa fa-university"></i>Cửa hàng
+            </span>
+            @Html.Action("SelectCuaHang", "CuaHangs")
+        </div>
+
+    </div>
+    <p></p>
+    <p></p>
+</div>
+<div class="container" id="" style="padding:0px;position:relative">
+    <p id="loadingdata" style="position:absolute;top:50px;width:100%;display:none">
+        <span style="display: flex; margin: auto; font-size: 50px; color: blue;">
+            <i class="fa fa-spinner fa-pulse" style="margin:auto"></i>
+        </span>
+    </p>
+    <div id="DanhSachSanPham">
+        @Html.Action("Top30ProductForOrder", "SanPham")
+    </div>
+
+</div>
+<style>
+    .abccontrol {
+        display: inline-block;
+        margin: 0px;
+        padding: 0px;
+        width: 100%;
+        background: #afadad;
+    }
+
+        .abccontrol li {
+            float: left;
+            list-style-type: none;
+            border-right: solid 1px #908383;
+            padding: 5px 15px;
+            color: #2116cc;
+            font-weight: bold;
+        }
+</style>
+<script>
+    function SelectTinhTrang(event) {
+        var id = $(event).val();
+        console.log(id)
+        if (id=='0') {
+            $.ajax({
+                url: '@Url.Action("XeDangKy", "SanPham")',
+                type: 'POST',
+                success: function (data) {
+                    $('#DanhSachSanPham').html(data);
+                }
+            });
+        }
+    }
+    function selectcatechange(div) {
+        var a = $(div).parent().attr('id');
+        var id = $(div).val();
+        if (id == '') {
+
+            return false;
+        }
+        if (a == 'parent') {
+            $.ajax({
+                url: '@Url.Action("GetProductByParentId", "SanPham")',
+                data: { id, id },
+                beforeSend:function () {
+
+                    $('#loadingdata').show();
+                },
+                success: function (data) {
+                    $('#loadingdata').hide();
+                    $('#DanhSachSanPham').html(data);
+                }
+            });
+            $.ajax({
+                url: '@Url.Action("SelectChild", "LoaiSanPhams")',
+                data: { id, id },
+                beforeSend:function () {
+
+                    $('#loadingchild').show();
+                },
+                success: function (data) {
+                    $('#loadingchild').hide();
+                    $('#child').html(data);
+                }
+            });
+        } else if (a=='child') {
+            $.ajax({
+                url: '@Url.Action("GetProductByChildId", "SanPham")',
+                data: { id, id },
+                beforeSend:function () {
+
+                    $('#loadingdata').show();
+                },
+                success: function (data) {
+                    $('#loadingdata').hide();
+                    $('#DanhSachSanPham').html(data);
+                }
+            });
+        }
+    }
+    $('#selectCuaHang').change(function () {
+        var id = $(this).val();
+        $.ajax({
+            url: '@Url.Action("GetProductByDepartment", "SanPham")',
+            data: { id, id },
+            success: function (data) {
+                $('#DanhSachSanPham').html(data);
+            }
+        });
+    });
+    $('#bntSearch').click(function () {
+        var q = $('#keyword').val();
+        if (q == '') {
+            return false;
+        } else {
+            $.ajax({
+                url: '@Url.Action("TimKiemSanPham","SanPham")',
+                data: { q, q },
+                beforeSend:function () {
+
+                    $('#loadingdata').show();
+                },
+                success: function (data) {
+                    $('#loadingdata').hide();
+                    $('#DanhSachSanPham').html(data);
+                }
+            });
+        }
+    });
+    function AddOrderDetail(id) {
+        $.ajax({
+            url: '@Url.Action("AddOrderDetail","BanHang")',
+            data: { id: id },
+            success: function (data) {
+                var json = $.parseJSON(data);
+                var code = json["code"];
+                if (code == 1) {
+                    var item = $('#totalitem').text();
+                    var item = parseInt(item) + 1;
+                    console.log(item);
+                    $('#totalitem').text(item++);
+                }
+                Notify(json["message"]);
+            }
+        });
+    }
+</script>

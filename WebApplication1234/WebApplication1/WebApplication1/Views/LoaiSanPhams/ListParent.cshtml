@@ -1,0 +1,16 @@
+﻿@model IEnumerable<WebApplication1.Models.LoaiSanPham>
+<div>
+    <ul>
+        @foreach (var item in Model)
+        {
+            <li>
+                <a href="@Url.Action("Edit","LoaiSanPhams",new {id=item.Id })">
+                    @item.Ten
+                </a>
+                <div>
+                    @Html.Action("ListChild", "LoaiSanPhams", new { id = item.Id })
+                </div>
+            </li>
+        }
+    </ul>
+</div>

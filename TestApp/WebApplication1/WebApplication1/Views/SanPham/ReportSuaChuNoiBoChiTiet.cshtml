@@ -1,0 +1,34 @@
+﻿@model List<WebApplication1.Models.ChiTietSuaChuaNoiBo>
+@foreach (var item in Model)
+{
+    <div class="row" style="border-bottom: solid 1px #ababab;padding-bottom: 5px;">
+        <div class="col-lg-5">
+            @Html.Action("LoaiSanPhamByIdSanPham", "LoaiSanPhams", new { id = item.IdPhuTung })
+        </div>
+        <div class="col-lg-1">
+            @item.SoLuong
+        </div>
+        <div class="col-lg-3">
+            <span>
+                X
+            </span>
+            <span class="money">
+                @item.GiaTien
+            </span>
+        </div>
+        <div class="col-lg-3">
+            <span>
+                =
+            </span>
+            <span class="money moneycolor" style="">
+                @item.ThanhTien
+            </span>
+        </div>
+    </div>
+}
+<style>
+    .moneycolor {
+        
+        font-weight: bold
+    }
+</style>

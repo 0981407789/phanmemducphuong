@@ -1,0 +1,264 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutEmpty.cshtml";
+}
+<div class="container homebg" style="">
+    <div class="row">
+        <h3 class="appheader">
+            Xe máy xe điện đức phương
+        </h3>
+    </div>
+    <div class="row">
+        <div class="col-xs-6 col-lg-2 col-md-3 col-sm-4">
+            <div style="width:100%;display:flex">
+                <div style="" class="homemenuicon">
+                    <a href="">
+                        <p>
+                            <i class="material-icons">
+                                home
+                            </i>
+                        </p>
+                        <p style="">
+                            Trang chủ
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-lg-2 col-md-3 col-sm-4">
+            <div style="width:100%;display:flex">
+                <div style="" class="homemenuicon">
+                    <a href="@Url.Action("CreateOrder","BanHang")">
+                        <p>
+                            <i class="material-icons">
+                                motorcycle
+                            </i>
+                        </p>
+
+                        <p style="">
+                            Sản phẩm
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-lg-2 col-md-3 col-sm-4">
+            <div style="width:100%;display:flex">
+                <div style="" class="homemenuicon">
+                    <a href="@Url.Action("OrderDetail","BanHang")">
+                        <p>
+                            <i class="material-icons">
+                                shopping_cart
+                            </i>
+                        </p>
+
+                        <p style="">
+                            Bán hàng
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-lg-2 col-md-3 col-sm-4">
+            <div style="width:100%;display:flex">
+                <div style="" class="homemenuicon">
+                    <a href="@Url.Action("NhapLo","SanPham")">
+                        <p>
+                            <i class="material-icons">
+                                add_shopping_cart
+                            </i>
+                        </p>
+
+                        <p style="">Nhập hàng</p>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-xs-6 col-lg-2 col-md-3 col-sm-4">
+            <div style="width:100%;display:flex">
+                <div style="" class="homemenuicon">
+                    <a href="@Url.Action("Index","Systems")">
+                        <p>
+                            <i class="material-icons">
+                                settings
+                            </i>
+                        </p>
+
+                        <p style="">Hệ thống</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-lg-2 col-md-3 col-sm-4">
+            <div style="width:100%;display:flex">
+                <div style="" class="homemenuicon">
+                    <a href="@Url.Action("SearchCustomer","KhachHangs")">
+                        <p>
+                            <i class="material-icons">
+                                person_add
+                            </i>
+                        </p>
+                        <p style="">Khách hàng</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-lg-2 col-md-3 col-sm-4">
+            <div style="width:100%;display:flex">
+                <div class="homemenuicon">
+                    <a href="@Url.Action("Index","Reports")">
+                        <p>
+                            <i class="material-icons">
+                                show_chart
+                            </i>
+                        </p>
+
+                        <p style="">Báo cáo</p>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-xs-6 col-lg-2 col-md-3 col-sm-4">
+            <div style="width:100%;display:flex">
+                <div style="" class="homemenuicon">
+                    <a href="@Url.Action("TimKiemDoiTac","DoiTacs")">
+                        <p>
+                            <i class="material-icons">
+                                store_mall_directory
+                            </i>
+                        </p>
+                        <p style="">Đối tác</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-lg-2 col-md-3 col-sm-4">
+            <div style="width:100%;display:flex">
+                <div style="" class="homemenuicon">
+                    <a href="@Url.Action("TimKiemDoiTac","DoiTacs")">
+                        <p>
+                            <i class="material-icons">
+                                store_mall_directory
+                            </i>
+                        </p>
+                        <p style="">Thu khác</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-lg-2 col-md-3 col-sm-4">
+            <div style="width:100%;display:flex">
+                <div style="" class="homemenuicon">
+                    <a href="@Url.Action("TimKiemDoiTac","DoiTacs")">
+                        <p>
+                            <i class="material-icons">
+                                store_mall_directory
+                            </i>
+                        </p>
+                        <p style="">Chi khác</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-lg-2 col-md-3 col-sm-4">
+            <div style="width:100%;display:flex">
+                <div style="" class="homemenuicon">
+                    <a href="@Url.Action("TimKiemDoiTac","DoiTacs")">
+                        <p>
+                            <i class="material-icons">
+                                info
+                            </i>
+                        </p>
+                        <p style="">Thông tin</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-lg-2 col-md-3 col-sm-4">
+            <div style="width:100%;display:flex">
+                <div style="" class="homemenuicon">
+                    <a href="@Url.Action("TimKiemDoiTac","DoiTacs")">
+                        <p>
+                            <i class="material-icons">
+                                headset_mic
+                            </i>
+                        </p>
+                        <p style="">Liên hệ</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row homebottom">
+        <div>
+            Xe máy - Xe điện đức phương
+        </div>
+        <div>
+            Cơ sở 1:
+        </div>
+        <div>
+            Cơ sở 2:
+        </div>
+    </div>
+</div>
+<style>
+    .homemenuicon:hover {
+        -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
+        -webkit-animation-duration: 1s; /* Safari 4.0 - 8.0 */
+        animation-name: example;
+        animation-duration: 1s;
+        background-color: #d2dace;
+    }
+
+        .homemenuicon:hover a {
+            -webkit-animation-name: colorchange; /* Safari 4.0 - 8.0 */
+            -webkit-animation-duration: 1s; /* Safari 4.0 - 8.0 */
+            animation-name: colorchange;
+            animation-duration: 1s;
+            color: #000;
+        }
+
+    @@-webkit-keyframes colorchange {
+        from {
+            color: #fff;
+        }
+
+        to {
+            color: #000;
+        }
+    }
+
+    /* Standard syntax */
+    @@keyframes colorchange {
+        from {
+            color: #fff;
+        }
+
+        to {
+            color: #000;
+        }
+    }
+
+
+    @@-webkit-keyframes example {
+        from {
+            background-color: #19885a;
+        }
+
+        to {
+            background-color: #d2dace;
+        }
+    }
+
+    /* Standard syntax */
+    @@keyframes example {
+        from {
+            background-color: #19885a;
+        }
+
+        to {
+            background-color: #d2dace;
+        }
+    }
+</style>

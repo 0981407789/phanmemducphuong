@@ -1,0 +1,216 @@
+﻿@model List<WebApplication1.Models.DonHang>
+@{
+    ViewBag.Title = "Báo cáo bán hàng";
+}
+<div class="container topinputarea">
+    <div class="row">
+        <h4 class="headertext">
+            <i class="fa fa-bar-chart"></i>  Báo cáo <i class="fa fa-chevron-right"></i> Bán hàng
+        </h4>
+    </div>
+
+    @using (Html.BeginForm("ReportSale", "BanHang", FormMethod.Get))
+    {
+
+        <div class="row baocaotop">
+            <div class="col-lg-5">
+                <p class="row">
+
+                    <span class="col-lg-3 col-xs-3">
+                        <i class="fa fa-calendar"></i>  Từ ngày
+                    </span>
+                    <span class="col-lg-9 col-xs-9">
+                        <input type="text" class="form-control" id="fromdate" name="f" value="@ViewBag.f" />
+                    </span>
+
+                </p>
+            </div>
+            <div class="col-lg-5">
+                <p class="row">
+                    <span class="col-lg-3 col-xs-3">
+                        <i class="fa fa-calendar"></i>  Đến ngày
+                    </span>
+                    <span class="col-lg-9 col-xs-9">
+                        <input type="text" class="form-control" id="todate" name="t" value="@ViewBag.t" />
+                    </span>
+
+                </p>
+            </div>
+            <div class="col-lg-2">
+                <button type="submit" class="form-control btn btn-primary" style="font-weight:bold">
+                    <i class="fa fa-file-o"></i>
+                    Báo cáo
+                </button>
+
+            </div>
+        </div>
+
+    }
+</div>
+<div class="container" id="DanhSachSanPham" style="background: #fff;border: none;">
+    <p style="background: #d6d6d6; color: #ff0000; padding: 10px; margin-bottom: 0px; font-weight: bold; font-size: 20px;" class="row">
+        Tổng bán: <span id="tongbanall"></span> -
+        Tổng nhập: <span id="tongnhapall"></span> -
+        Phí khác: <span id="phikhacall"></span> -
+        Lãi: <span id="tonglaiall"></span>
+    </p>
+
+    <div class="row tbheader visible-lg" style="margin-bottom:10px">
+
+        <div class="col-lg-6">
+            Sản phẩm
+        </div>
+        <div class="col-lg-1">
+            Nhập
+        </div>
+        <div class="col-lg-1">
+            Phí
+        </div>
+        <div class="col-lg-1">
+            Bán
+        </div>
+        <div class="col-lg-1">
+            SL
+        </div>
+        <div class="col-lg-2">
+            Tổng
+        </div>
+    </div>
+
+    @if (Model != null)
+    {
+
+        foreach (var item in Model)
+        {
+            <div class="trrepot row tbitem" style="">
+                <div class="container-fluid">
+                    <div class="row" style="padding: 10px; background: #d8d8d2;color: #060606;margin: 0px;">
+                        <div class="" style="float:left;margin-right:10px">
+                            <span>
+                                Ngày:
+                            </span>
+                            <span class="date">
+                                @item.NgayBan
+                            </span>
+                        </div>
+                        <div style="float:left">
+                            @Html.Action("CustomerByIdReport", "KhachHangs", new { id = item.KhachHang })
+                        </div>
+                        <div style="float:left;margin-right:10px">
+                            <span>
+                                Tổng nhập:
+                            </span>
+                            <span class="money tongnhap" style="color: #2005ff;font-weight: bold;">
+                                @item.TongNhap
+                            </span>
+
+                        </div>
+                        <div class="" style="float:left;margin-right:10px">
+                            <span>
+                                Tổng bán:
+                            </span>
+                            <span class="money tongban" style="color: #2005ff;font-weight: bold;">
+                                @item.SoTien
+                            </span>
+
+                        </div>
+                        <div class="" style="float:left;margin-right:10px">
+                            Phí khác:
+                            <span class="tongphikhacrow money" style="color: #2005ff;font-weight: bold;">
+
+                            </span>
+                        </div>
+                        <div class="" style="float:left;margin-right:10px">
+                            <div style="display:inline-block">
+                                <div style="float:left;margin-right:5px">
+                                    Lãi:
+                                </div>
+                                <div class="tonglaiamduong" style="float:left;color: #2005ff;">
+                                    <span class="laiam">
+
+                                    </span>
+                                    <span class="money tonglai" style="font-weight: bold;">
+
+                                    </span>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="container-fluid childtable">
+                    @Html.Action("OrderDetailByOrderId", "BanHang", new { id = item.Id })
+                </div>
+            </div>
+        }
+
+    }
+
+</div>
+<style>
+    .childtable {
+        background: #c4c5c2;
+    }
+
+    .trrepot {
+    border: solid 1px #adadad;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    }
+
+    .table .table {
+        background-color: none !important;
+    }
+</style>
+<script>
+    $("#fromdate").datepicker(
+        $.datepicker.regional["vi"]
+    );
+    $("#todate").datepicker(
+        $.datepicker.regional["vi"]
+    );
+    $(document).ready(function () {
+        var tongban = 0;
+
+        var tongnhap = 0;
+        var tonglai = 0;
+        $('.tongban').each(function () {
+            var ban = $(this).text().replace(/,/g, '');
+            tongban += parseFloat(ban);
+        });
+
+        $('.tongnhap').each(function () {
+            var nhap = $(this).text().replace(/,/g, '');
+            tongnhap += parseFloat(nhap);
+        });
+        var laiabc123 = 0;
+        var phikhacabc123 = 0;
+        $('.trrepot').each(function () {
+            var tongphikhac = 0;
+            var childrow = $(this).find('.childtable').find('.childrow');
+            $(childrow).each(function () {
+                var phikhac = $(this).find('.phikhac').text().trim().replace(/,/g, '');
+                tongphikhac += parseFloat(phikhac);
+            });
+            $(this).find('.tongphikhacrow').text(tongphikhac).number(true, 0);;
+            var tongbanrow = $(this).find('.tongban').text().trim().replace(/,/g, '');
+            var tongnhaprow = $(this).find('.tongnhap').text().trim().replace(/,/g, '');
+            var lairow = parseFloat(tongbanrow) - parseFloat(tongnhaprow) - tongphikhac;
+            if (lairow < 0) {
+                $(this).find('.laiam').text('-');
+            }
+            $(this).find('.tonglai').text(lairow).number(true, 0);
+            laiabc123 += lairow;
+            phikhacabc123 += tongphikhac;
+        });
+        $('#phikhacall').text(phikhacabc123).number(true, 0);
+        $('#tongbanall').text(tongban).number(true, 0);
+        $('#tongnhapall').text(tongnhap).number(true, 0);
+        $('#tonglaiall').text(laiabc123).number(true, 0);
+    });
+
+</script>
+

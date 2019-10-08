@@ -1,0 +1,72 @@
+﻿<div>
+    @Html.Action("LoHangTheoId", "SanPham", new { id = ViewBag.IdLo })
+</div>
+
+<div class="container" style="border: solid 1px #c5c5c5;padding:0px">
+    <ul class="nav nav-pills ultab" style="margin-top:0px">
+        <li class="active" id="chitietloli">
+            <a href="#ChiTietLo" data-toggle="tab">Nhập sản phẩm</a>
+        </li>
+        <li id="tranonhaphangli">
+            <a href="#tranonhaphang" data-toggle="tab">Trả nợ</a>
+        </li>
+        <li id="lichsutranoli">
+            <a href="#lichsutrano" data-toggle="tab">Lịch sử</a>
+        </li>
+    </ul>
+    <div class="tab-content mytabcontent" style="margin:0px;padding:0px">
+        <div class="row tab-pane active" id="ChiTietLo" style="margin:0px;padding:0px">
+            <p></p>
+            <div class="container">
+                @Html.Action("NhapThongTinSanPham", "SanPham", new { id = ViewBag.IdLo })
+            </div>
+            <div class="container" id="ListSanPham" style="padding:0px">
+                @Html.Action("ListSanPhamTheoLo", "SanPham", new { id = ViewBag.IdLo })
+            </div>
+        </div>
+        <div class="row tab-pane" id="tranonhaphang" style="margin:0px;padding:0px">
+            @Html.Action("TraNoNhapHang", "DoiTacs", new { id = ViewBag.IdLo })
+        </div>
+        <div class="row tab-pane" id="lichsutrano" style="margin:0px;padding:0px">
+            @Html.Action("ImportPayHistory", "DoiTacs", new { id = ViewBag.IdLo })
+        </div>
+    </div>
+</div>
+<style>
+    .nav-pills > li > a {
+        border-radius: 0px;
+        /*background: #d3d3d3;*/
+        color: #000;
+        font-weight:bold;
+        text-transform:uppercase
+    }
+
+    .nav-pills > li:first-child {
+        /*border-left: solid 1px #b9b8b8;*/
+    }
+
+    .nav-pills > li:last-child {
+        border-right: solid 1px #b9b8b8;
+    }
+
+    .mytabcontent {
+        border-top: solid 1px #b9b8b8;
+
+        /*border-bottom: none;*/
+    }
+
+    .ultab {
+        margin-top: 20px
+    }
+
+        .ultab li {
+            /*border-top: solid 1px #808080;*/
+            margin: 0px;
+            padding: 0px
+        }
+
+    .nav-pills > li + li {
+        margin-left: 0px;
+        border-left: solid 1px #b9b8b8;
+    }
+</style>

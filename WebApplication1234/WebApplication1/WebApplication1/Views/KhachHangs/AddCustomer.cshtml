@@ -1,0 +1,93 @@
+﻿@model WebApplication1.Models.KhachHang
+@using (Ajax.BeginForm("AddCustomer", "KhachHangs",
+    new AjaxOptions
+    {
+        HttpMethod = "Post",
+        OnSuccess = "AddCustomerSuccess",
+        OnBegin = "OnLoadingAdd"
+    }))
+{
+    <div style="padding:20px">
+        <h3 style="margin:0px;padding:0px;text-align:center;text-transform:uppercase">
+            Nhập thông tin khách hàng
+            <i class="fa fa-user-plus"></i>
+        </h3>
+        <p></p>
+        <div></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div>
+                        <div>
+                            <i class="fa fa-user"></i>
+                            Tên khách hàng:
+                        </div>
+                        <div style="position:relative;margin:0px;padding:0px">
+                            @Html.TextBoxFor(m => m.Ten, new { @class = "form-control", required = "required" })
+                        </div>
+                    </div>
+                    <p></p>
+                    <p>
+                        <i class="fa fa-phone"></i>
+                        Số điện thoại:  @Html.TextBoxFor(m => m.SoDienThoai, new { @class = "form-control" })
+                    </p>
+                    <p>
+                        <i class="fa fa-calendar"></i>
+                        Ngày sinh:  @Html.TextBoxFor(m => m.NgaySinh, new { @class = "form-control", id = "birthdayadd" })
+                    </p>
+                    <p>
+                        <i class="fa fa-credit-card"></i>
+                        Số CMND:  @Html.TextBoxFor(m => m.CMND, new { @class = "form-control" })
+                    </p>
+                </div>
+                <div class="col-lg-6">
+                    <p>
+                        <i class="fa fa-home"></i>
+                        Xã: @Html.Action("SelectXa", "Xas")
+                    </p>
+                    @Html.HiddenFor(m => m.IdXa, new { @class = "form-control", id = "idxa" })
+                    <p>
+                        <i class="fa fa-home"></i>
+                        Địa chỉ chi tiết:
+                        @Html.TextAreaFor(m => m.DiaChi, new { @class = "form-control", rows = "4" })
+                    </p>
+                    <p style="margin-bottom:3px">
+                        &nbsp;
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <button type="button" class="form-control btn btn-danger">
+                                        <i class="fa fa-times"></i> Hủy
+                                    </button>
+                                </div>
+                                <div class="col-xs-6">
+                                    <button type="submit" class="form-control btn btn-primary">
+                                        <i class="fa fa-plus"></i>
+                                        Nhập
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div id="loadingdiv" style="width:100%;height:100%;top:0px;left:0px;position:fixed;background:#d4d4d48c;display:none">
+        <div style="position:fixed;left:45%;top:45%">
+            <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+        </div>
+
+    </div>
+}
+<script>
+    $(document).ready(function () {
+        $('#birthdayadd').datepicker($.datepicker.regional["vi"]);
+    });
+    function OnLoadingAdd() {
+        $('#loadingdiv').show();
+    }
+
+</script>

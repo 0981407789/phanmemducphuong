@@ -1,0 +1,78 @@
+﻿@model List<WebApplication1.Models.SuaChuaNoiBo>
+
+<div class="container-fuid">
+    <div class="row visible-lg row-header">
+        <div class="col-lg-3">
+            Ngày tháng
+        </div>
+        <div class="col-lg-3">
+            Số tiền
+        </div>
+        <div class="col-lg-3">
+            Người
+        </div>
+        <div class="col-lg-3">
+            Ghi chú
+        </div>
+    </div>
+</div>
+@foreach (var item in Model)
+{
+    <div class="" style="margin-bottom: 10px; background: #fff;border-bottom: solid 1px #c1c1c1">
+        <div class="row row-content">
+            <div class="col-lg-3 col-xs-6">
+                <a href="" class="viewdetail" style="display:inline-block">
+                    <span class="visible-xs" style="float:left">
+                        Ngày tháng:
+                    </span>
+                    <span class="date" style="float:left">
+                        @item.NgayThang
+                    </span>
+                </a>
+
+
+            </div>
+            <div class="col-lg-3 col-xs-6">
+                <span class="visible-xs" style="float:left">
+                    Tổng tiền:
+                </span>
+                <span class="money">
+                    @item.TongTien
+                </span>
+
+            </div>
+            <div class="col-lg-3 col-xs-12" style="display:inline-block">
+                <div style="display:inline-block">
+                    <span class="visible-xs" style="float:left">
+                        Người:
+                    </span>
+                    <span class="date">
+                        @item.NguoiThucHien
+                    </span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-12" style="display:inline-block">
+                <div style="display:inline-block">
+                    <span class="visible-xs" style="float:left">
+                        Ghi chú:
+                    </span>
+                    <span class="date">
+                        @item.GhiChu
+                    </span>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="row row-content">
+
+            @Html.Action("ChiTietSuaChuaNoiBo", "SanPham", new { id = item.Id })
+
+        </div>
+    </div>
+}
+
+<script>
+
+    $('.money').number(true, 0);
+</script>

@@ -1,0 +1,66 @@
+﻿@model List<WebApplication1.Models.KhachHang>
+@{
+    Layout = null;
+}
+@if (Model != null && Model.Count > 0)
+{
+
+    foreach (var item in Model)
+    {
+        <tr>
+            <td class="c_id hidden">@item.Id</td>
+            <td class="c_name">@item.Ten</td>
+            <td class="c_phone"> @item.SoDienThoai</td>
+            <td class="c_diachi"> @item.DiaChi</td>
+            <td class="c_ngaysinh "> @item.NgaySinh</td>
+            <td class="c_cmnd "> @item.CMND</td>
+            <td class="c_xa ">
+                @if (item.IdXa.HasValue)
+                {
+                    @Html.Action("GetTenXa", "Xas", new { id = item.IdXa })
+                }
+                else
+                {
+                    <span>Không xác định</span>
+                }
+            </td>
+        </tr>
+    }
+
+}
+else
+{
+    <div>
+        <p>Không có dữ liệu</p>
+        <a class="textAddNewCustomer" id="textAddNewCustomer" href="@Url.Action("AddCustomer","KhachHangs")">
+            <p style="padding:10px;font-weight:bold">Thêm khách hàng mới</p>
+        </a>
+    </div>
+}
+<script>
+    $(document).ready(function () {
+        $('.textAddNewCustomer').colorbox();
+        $('#ListCustomertb tr').click(function (e) {
+            var name = $(this).find("td.c_name").text();
+            var phone = $(this).find("td.c_phone").text();
+            var diachi = $(this).find("td.c_diachi").text();
+            var xa = $(this).find("td.c_xa").text();
+            var id = $(this).find("td.c_id").text();
+            var ngaysinh = $(this).find("td.c_ngaysinh").text();
+            var cmnd = $(this).find("td.c_cmnd").text();
+            $('#cmnd').val(cmnd);
+            $('#autoCompleteCustomer').val(name);
+            $('#birthday').val(ngaysinh);
+            $('#xa').val(xa.trim());
+            $('#diachi').val(diachi.trim());
+            $('#phone').val(phone);
+            $('#idcustomer').val(id);
+            $('#cboxClose').click();
+        });
+    });
+</script>
+<style>
+    #ListCustomertb tbody tr {
+        cursor: pointer;
+    }
+</style>

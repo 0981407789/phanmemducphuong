@@ -1,0 +1,463 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Xe máy Xe điện Đức Phương</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <link rel="icon" type="image/png" href="~/favicon.png" sizes="">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="~/Scripts/datepicker-vi.js"></script>
+    <script src="~/Scripts/jquery.number.js"></script>
+    <script src="~/Scripts/jquery.twbsPagination.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="~/Scripts/jquery.colorbox-min.js"></script>
+    <link href="~/Content/colorbox.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+    <script src="~/Scripts/docsothanhchu.js"></script>
+    <link href="~/src/css/lightbox.css" rel="stylesheet" />
+    <script src="~/src/js/lightbox.js"></script>
+
+</head>
+<body style="background-color:#eee">
+    <div class="container topwrap">
+        <div class="toppage">
+            <ul>
+                <li>
+                    <a href="@Url.Content("~")">
+                        <div>
+                            <div class="wrapicon">
+                                <i class="material-icons">
+                                    home
+                                </i>
+                            </div>
+
+                            <div>
+                                Trang chủ
+                            </div>
+                        </div>
+
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("CreateOrder","BanHang")">
+                        <div>
+                            <div class="wrapicon">
+                                <i class="material-icons">
+                                    motorcycle
+                                </i>
+                            </div>
+
+                            <div>
+                                Sản phẩm
+                            </div>
+                        </div>
+
+
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("NhapLo","SanPham")">
+                        <div>
+                            <div class="wrapicon">
+                                <i class="material-icons">
+                                    add_shopping_cart
+                                </i>
+                            </div>
+
+                            <div>
+                                Nhập hàng
+                            </div>
+                        </div>
+
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index","Reports")">
+                        <div>
+                            <div class="wrapicon">
+                                <i class="material-icons">
+                                    insert_chart
+                                </i>
+                            </div>
+
+                            <div>
+                                Báo Cáo
+                            </div>
+                        </div>
+
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index","Systems")">
+                        <div>
+                            <div class="wrapicon">
+                                <i class="material-icons">
+                                    settings
+                                </i>
+                            </div>
+
+                            <div>Hệ thống</div>
+                        </div>
+
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("SearchCustomer","KhachHangs")">
+                        <div>
+                            <div class="wrapicon">
+                                <i class="material-icons">
+                                    person
+                                </i>
+                            </div>
+
+                            <div>
+                                Khách hàng
+                            </div>
+                        </div>
+
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("TimKiemDoiTac","DoiTacs")">
+                        <div>
+                            <div class="wrapicon">
+                                <i class="material-icons">
+                                    public
+                                </i>
+                            </div>
+
+                            <div>
+                                Đối tác
+                            </div>
+                        </div>
+
+                    </a>
+                </li>
+                <li>
+                    @Html.Action("TotalItemIcon", "BanHang")
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="">
+        @RenderBody()
+    </div>
+    <div id="notify" class="notify">
+    </div>
+
+</body>
+</html>
+<style>
+    .wrapicon {
+        display: flex;
+    }
+
+    .topwrap {
+        border: solid 1px #c7c7c7;
+        border-top: none;
+    }
+
+    .toppage {
+    }
+
+        .toppage ul {
+            display: inline-block;
+            margin: auto;
+            padding: 0px;
+        }
+
+            .toppage ul li {
+                float: left;
+                list-style-type: none;
+                margin-right: 20px;
+            }
+
+                .toppage ul li a {
+                    display: inline-block;
+                }
+
+                    .toppage ul li a:hover {
+                        text-decoration: none;
+                    }
+
+                .toppage ul li i {
+                    font-size: 40px;
+                    margin: auto;
+                }
+
+    #insidegiohang {
+        position: relative;
+    }
+
+        #insidegiohang i {
+            font-size: 50px;
+            color: #050df9;
+        }
+
+    #totalitem {
+        position: absolute;
+        top: 9px;
+        font-size: 15px;
+        color: #fb0000;
+        font-weight: bold;
+        border-radius: 50%;
+        padding: 1px 7px;
+        left: 17px;
+        background: #efff00;
+    }
+
+    #giohang {
+    }
+
+    .notify {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        background-color: #ffffff;
+        border: solid 1px;
+        border-color: #ff0000;
+        border-radius: 5px;
+        text-align: center;
+        color: #ff0000;
+        padding: 10px 20px;
+        display: none;
+        font-weight: bold;
+        z-index: 9999;
+        box-shadow: 0 0 10px #ff0000;
+    }
+
+    tbody > tr:nth-child(odd) {
+        background: #cccccc;
+        color: #000;
+    }
+
+        tbody > tr:nth-child(odd) a {
+            color: #000;
+        }
+
+    tbody > tr:nth-child(even) {
+        background: #375829;
+        color: #fff;
+    }
+
+        tbody > tr:nth-child(even) a {
+            color: #fff;
+        }
+
+    thead tr {
+        background: #210d0d;
+        color: #fff;
+    }
+
+    .table-hover > tbody > tr:nth-child(even):hover td {
+        color: #000;
+    }
+
+    .textlable {
+        font-weight: bold;
+        color: #116b06;
+    }
+
+    .topinputarea {
+        border-left: solid 1px #c1c1c1;
+        position: relative;
+        border-bottom: none;
+        background: #ececec;
+        border-right: solid 1px #c1c1c1;
+    }
+
+    .textboder {
+        position: absolute;
+        top: -10px;
+        background: #FFF;
+        color: #f00;
+        left: 20px;
+        font-style: italic;
+        font-weight: bold;
+    }
+
+    .topcontrol {
+        border: solid 1px #a7a7a7;
+        padding: 10px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .myserachbutton {
+        height: 34px;
+        padding: 0px 20px;
+        border: 1px solid #cccccc;
+        font-size: 20px;
+        color: #004eff;
+    }
+
+    .mysearchinput {
+        float: left;
+        height: 34px;
+        padding-left: 12px;
+        border: 1px solid #cccccc;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+    }
+
+    .headertext {
+        text-transform: uppercase;
+        margin: 0px;
+        background: #041384;
+        padding: 5px;
+        color: #f9f9f9;
+        font-weight: bold;
+    }
+
+    #DanhSachSanPham {
+        border-top: none;
+        border: solid 1px #a7a7a7;
+    }
+
+    .tbheader {
+        text-transform: uppercase;
+        font-weight: bold;
+        padding: 5px;
+        background-color: #000;
+        color: #fff;
+    }
+
+    .tbitem:nth-child(odd) {
+        padding: 10px;
+        color: #000;
+        background: #cccaca;
+    }
+
+    .tbitem:nth-child(even) {
+        padding: 10px;
+        color: #000;
+        background: #fff;
+    }
+
+    .tbitem p {
+        display: inline-block;
+        width: 100%;
+    }
+
+    .topinfo {
+        background: #dadeff;
+        margin: 0px;
+        padding: 10px;
+    }
+
+        .topinfo div[class^="col-lg"] {
+            padding: 5px;
+        }
+
+    .appheader {
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: bold;
+        background: #003f6d;
+        margin: 0px;
+        padding: 10px;
+        color: #fff;
+        border: solid 1px;
+    }
+
+    .material-icons {
+        font-size: 7em;
+    }
+
+    .homemenuicon {
+        margin: 10px auto;
+        padding: 10px 20px;
+        border: solid 1px #c78484;
+        border-radius: 20px;
+        background: #19885a;
+        color: #06b534;
+        text-align: center;
+        width: 160px;
+    }
+
+        .homemenuicon a {
+            text-transform: uppercase;
+            color: #fff;
+            font-weight: bold;
+        }
+
+    .homebg {
+        border: solid 1px #d0d0d0;
+        background: #efefef;
+    }
+
+    .homebottom {
+        padding: 10px;
+        background: #000000;
+        color: #ffffff;
+        font-style: italic;
+        border: solid 1px;
+    }
+
+    .baocaotop {
+        background-color: #dadeff;
+        padding-top: 15px;
+    }
+
+        .baocaotop .col-lg-3 {
+            font-weight: bold;
+            margin-top: 5px
+        }
+
+        .baocaotop .col-xs-3 {
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+    .customername {
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #2005ff;
+    }
+
+    .btn {
+        font-weight: bold;
+    }
+
+    button {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+</style>
+<script>
+    $('.money').number(true, 0);
+    function Notify(message) {
+        var notify = $('#notify').css("display");
+        if (notify == 'block') {
+            $('#notify').text(message);
+        } else {
+            $('#notify').show();
+            $('#notify').text(message);
+            setTimeout(function () {
+                $('#notify').hide();
+            }, 5000)
+        }
+    }
+    $(".date").each(function () {
+        var date = $(this).text();
+        var dt = date.split("/");
+        if (dt.length >= 3) {
+            $(this).text(dt[1] + " - " + dt[0] + " - " + dt[2].substr(0, 4));
+        }
+    });
+
+    function UpdateDiv(id, value) {
+        $('#' + id).text(value);
+        if (!isNaN(value)) {
+            $('#' + id).number(true, 0);
+        }
+    }
+</script>

@@ -1,0 +1,183 @@
+﻿@model List<WebApplication1.Models.ChiTietDonHang>
+
+<div class="container" id="DanhSachSanPham">
+    <div class="row">
+        <p class="headertext" style="display:inline-block;width:100%;">
+            <span class="h4 left" style="text-transform: uppercase;font-weight: bold;">
+                <i class="fa fa-info-circle"></i> Quản lý đơn hàng
+            </span>
+
+        </p>
+    </div>
+
+    @*<div class="row" style="background: #c1bebe;color: #000;">
+            <div style="display: flex; flex-wrap: wrap;">
+                <a href="@Url.Action("CancelSaledOrder", "BanHang", new { id = Model.FirstOrDefault().IdBanHang })" style="color: #0905ea; font-weight: bold; padding: 10px; border-right: solid 1px #b3a5a5;">
+                    <i class="fa fa-times"></i> Hủy Đơn
+                </a>
+                <a href="@Url.Action("CustomerPay", "KhachHangs", new { id = Model.FirstOrDefault().IdBanHang })" class="CustomerPay" style="color: #0736e2; font-weight: bold; padding: 10px; border-right: solid 1px #b3a5a5; ">
+                    <i class="fa fa-credit-card"></i> Trả nợ
+                </a>
+            </div>
+        </div>*@
+
+</div>
+<div class="container" style="border:solid 1px #c1c1c1">
+    <div style="display: flex;border-bottom:solid 1px #c1c1c1" class="row">
+        <ul class="nav nav-pills ultab">
+            <li class="active" id="suachua">
+                <a href="#donhang" data-toggle="tab">
+                    <i class="fa fa-wrench"></i>Thông tin
+                </a>
+            </li>
+            <li id="lichsutab">
+                <a href="#lichsu" data-toggle="tab">
+                    <i class="fa fa-list-alt"></i>  Lịch sử
+                </a>
+            </li>
+            <li id="">
+                <a href="#huydon" data-toggle="tab">
+                    <i class="fa fa-pencil"></i>   Hủy đơn
+                </a>
+            </li>
+            <li id="tranotab">
+                <a href="#trano" data-toggle="tab">
+                    <i class="fa fa-pencil"></i>   Trả nợ
+                </a>
+            </li>
+
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div class="tab-pane active" id="donhang">
+            <div class="row tbheader visible-lg">
+                <div class="col-lg-3">
+                    Sản phẩm
+                </div>
+                <div class="col-lg-2">
+                    Giá nhập
+                </div>
+                <div class="col-lg-1">
+                    Phí
+                </div>
+                <div class="col-lg-2">
+                    Giá bán
+                </div>
+                <div class="col-lg-2">
+                    SL
+                </div>
+                <div class="col-lg-2">
+                    Tổng
+                </div>
+                <div class="col-lg-1">
+
+                </div>
+            </div>
+
+            @foreach (var item in Model)
+            {
+                <div class="row tbitem">
+                    @Html.Action("GetProductCustomerDetail", "SanPham", new { id = item.IdSanPham })
+                    <div class="col-lg-2">
+                        <span class="money">
+                            @item.GiaBan
+                        </span>
+                    </div>
+                    <div class="col-lg-2">
+                        <span class="money">
+                            @item.SoLuong
+                        </span>
+                    </div>
+                    <div class="col-lg-2">
+                        <span class="money">
+                            @item.TongTien
+                        </span>
+                    </div>
+                    @*<div class="col-lg-1">
+                        <a href="@Url.Action("DoiTra", "BanHang", new {id=item.Id })">
+                            <i class="fa fa-refresh"></i>
+                            Đổi trả
+                        </a>
+
+
+                    </div>*@
+                </div>
+            }
+
+            <div class="row" style="padding-top: 14px;background: #403f3f; color: #fff; font-weight: bold;text-transform: uppercase;font-size:15px">
+                <div class="col-lg-3 ">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label class="control-label" for="totalproductmoney">Tổng bán:</label>
+                            <span id="totalproductmoney">
+                                @ViewBag.totalmoney
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="control-label" for="tongnhap">Tổng nhập:</label>
+                        <span id="tongnhap">
+                            @ViewBag.tongnhap
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label class="control-label" for="datra">Đã trả:</label>
+                        <span id="datra">
+                            @ViewBag.datra
+                        </span>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label class="control-label" for="conno">Còn nợ:</label>
+                        <span id="conno">
+                            @ViewBag.conno
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="lichsu">
+            <div>
+                @Html.Action("CustomerPayHistory", "KhachHangs", new { id = Model.FirstOrDefault().IdBanHang })
+            </div>
+        </div>
+        <div class="tab-pane" id="huydon">
+            @Html.Action("CanSaledOrderConfirm", "BanHang", new { id = Model.FirstOrDefault().IdBanHang })
+        </div>
+        <div class="tab-pane" id="trano">
+            @Html.Action("CustomerPay", "KhachHangs", new { id = Model.FirstOrDefault().IdBanHang })
+        </div>
+    </div>
+</div>
+<style>
+    .soluongtondiv {
+        display: none;
+    }
+
+    .nav-pills > li > a {
+        border-radius: 0px;
+        font-weight:bold;
+        text-transform:uppercase;
+    }
+    .ultab li{
+        border-right: solid 1px #c1c1c1;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        $('#totalproductmoney').number(true, 0);
+        $('.CustomerPay').colorbox();
+        $('#tongnhap').number(true, 0);
+        $('#lai').number(true, 0);
+        $('#datra').number(true, 0);
+        $('#conno').number(true, 0);
+    });
+
+</script>

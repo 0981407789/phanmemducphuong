@@ -1,0 +1,25 @@
+﻿@model WebApplication1.Models.KhachHang
+<div>
+    <div>
+        Ông/Bà:<span style="font-weight:bold">@Model.Ten</span>
+    </div>
+    <div>
+        Số chứng minh nhân dân: <span style="font-weight:bold">@Model.CMND</span>
+        <span>
+            Số điện thoại: <span style="font-weight:bold">
+                @Model.SoDienThoai
+            </span>
+        </span>
+    </div>
+    <div>
+        Địa chỉ: @Model.DiaChi <span> - </span>
+        @if (Model.IdXa.HasValue)
+        {
+            <span>
+                @Html.Action("GetTenXa", "Xas", new { id = Model.IdXa })
+            </span>
+        }
+
+    </div>
+
+</div>

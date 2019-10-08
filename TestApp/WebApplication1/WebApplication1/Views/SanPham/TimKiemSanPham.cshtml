@@ -1,0 +1,165 @@
+﻿@model List<WebApplication1.Models.SanPham>
+<div class="container">
+    <div class="row listproheader visible-lg">
+        <div class="col-lg-2">
+            Sản phẩm
+        </div>
+        <div class="col-lg-3">
+            Chi tiết
+        </div>
+        <div class="col-lg-1">
+            Giá bán
+        </div>
+
+        <div class="col-lg-1">
+            Nhập
+        </div>
+        <div class="col-lg-1">
+            Tồn
+        </div>
+        <div class="col-lg-1">
+            Cơ sở
+        </div>
+        <div class="col-lg-2">
+            Ghi chú
+        </div>
+        <div class="col-lg-1 detail">
+        </div>
+    </div>
+    @foreach (var item in Model)
+    {
+        <div class="row listitem">
+            <div class="col-lg-2">
+                <div style="display:inline-block;width:100%">
+                    <span class="hidden-lg" style="float:left">
+                        Sản phẩm:
+                    </span>
+                    <a href="@Url.Action("UpdateProductPrice","SanPham",new { id=item.Id})">
+                        @Html.Action("LoaiSanPhamById", "LoaiSanPhams", new { id = item.IdLoai })
+                    </a>
+                </div>
+
+            </div>
+            <div class="col-lg-3">
+                <div style="display:inline-block;width:100%">
+                    <span class="hidden-lg" style="float:left">
+                        Chi tiết:
+                    </span>
+                    <span>
+                        Mã SP: @item.Id
+                    </span>
+                    @if (!string.IsNullOrEmpty(item.BienSo))
+                    {
+                        <span>
+                            - Biển số: @item.BienSo
+                        </span>
+                    }
+
+                    @if (!string.IsNullOrEmpty(item.SoKhung))
+                    {
+                        <span>
+                            - Sk: @item.SoKhung
+                        </span>
+                    }
+                    @if (!string.IsNullOrEmpty(item.SoMay))
+                    {
+                        <span>
+                            - SM: @item.SoMay
+                        </span>
+                    }
+                    @if (!string.IsNullOrEmpty(item.MauSac))
+                    {
+                        <span>
+                            - Màu: @item.MauSac
+                        </span>
+                    }
+                </div>
+            </div>
+            <div class="col-lg-1">
+                <div style="display:inline-block;width:100%">
+                    <div class="hidden-lg" style="float:left;">
+                        Giá Bán:
+                    </div>
+                    <div class="money">
+                        @item.GiaBanDeXuat
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-lg-1">
+                <div style="display:inline-block;width:100%">
+                    <span class="hidden-lg" style="float:left"> Nhập:</span> @item.SoLuongNhap
+                </div>
+               
+            </div>
+            <div class="col-lg-1">
+                <span class="hidden-lg" style="float:left">
+                    Tồn:
+                </span>
+                @item.SoLuongTon
+            </div>
+            <div class="col-lg-1">
+                @if (item.IdCuaHang.HasValue)
+                {
+                    <span>
+                        @Html.Action("CuaHangById", "CuaHangs", new { id = item.IdCuaHang })
+                    </span>
+                }
+            </div>
+            <div class="col-lg-2">
+                @item.GhiChu
+            </div>
+            <div class="col-lg-1 detail">
+                @if (item.SoLuongTon > 0)
+                {
+
+                    <a href="Javascript:void(0)" onclick="AddOrderDetail('@item.Id')" class="visible-lg">
+                        Bán <i class="fa fa-plus"></i>
+                    </a>
+                    <a href="Javascript:void(0)" onclick="AddOrderDetail('@item.Id')" class="hidden-lg btn form-control btn-primary cartmotile">
+                        Bán <i class="fa fa-shopping-cart"></i>
+                    </a>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    $('.money').number(true, 0);
+</script>
+<style>
+    .listproheader {
+        background: #0a0a0a;
+        padding: 10px;
+        font-weight: bold;
+        color: #fff;
+        text-transform: uppercase;
+    }
+
+    .listitem {
+        padding: 5px;
+        position:relative;
+    }
+    .cartmotile {
+        position: absolute;
+        right: 0px;
+        top: -85px;
+        width: 100px;
+        z-index: 9;
+    }
+
+
+    .listitem:nth-child(odd) {
+    }
+
+        .listitem:nth-child(even) {
+            background: #3c3c3c;
+            color: #fff;
+        }
+
+            .listitem:nth-child(even) a {
+                color: #fff;
+            }
+</style>

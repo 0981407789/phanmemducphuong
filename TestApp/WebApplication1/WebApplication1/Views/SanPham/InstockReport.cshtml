@@ -1,0 +1,210 @@
+﻿<div class="container topinputarea">
+    <div class="row">
+        <h4 class="headertext">
+            <i class="fa fa-bar-chart"></i>  Báo cáo <i class="fa fa-chevron-right"></i> Tồn kho
+        </h4>
+    </div>
+    <div class="row baocaotop" style="padding-bottom:10px">
+        <div class="col-lg-4">
+            <div class="row">
+                <div class="col-xs-4">
+                    <span class="textlable">
+                        <i class="fa fa-list"></i>
+                        Danh mục
+                    </span>
+                </div>
+                <div class="col-xs-8">
+                    <div class="" id="parent">
+                        @Html.Action("SelectParent", "LoaiSanPhams")
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="row">
+
+                <div class="col-xs-4">
+                    <span class="textlable">
+                        <i class="fa fa-list"></i>
+                        Loại 
+                    </span>
+                </div>
+                <div class="col-xs-8">
+                    <div id="child" style="position:relative">
+                        <select class="form-control">
+                            <option>Chọn danh mục</option>
+                        </select>
+                        <div style="font-size: 30px; position: absolute; right: 0px;top: -2px; color: blue;font-weight: bold;display:none" id="loadingchild">
+                            <i class="fa fa-spinner fa-pulse"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+        </div>
+        <div class="col-lg-4">
+            <div class="row">
+                <div class=" col-xs-4">
+                    <span class="textlable">
+                        <i class="fa fa-university"></i>Cửa hàng
+                    </span>
+                </div>
+                <div class="col-xs-8">
+                    @Html.Action("SelectCuaHang", "CuaHangs")
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+    <div style="margin-top: 10px; font-weight: bold; font-size: 20px;">
+        Tổng: <span class="money" id="tongtien"></span> - <span id="moneytext"></span>
+    </div>
+
+</div>
+<div class="container table-responsive" id="DanhSachSanPham" style="position:relative;padding:0px">
+    <p id="loadingdata" style="position:absolute;top:50px;width:100%;display:none">
+        <span style="display: flex; margin: auto; font-size: 50px; color: blue;">
+            <i class="fa fa-spinner fa-pulse" style="margin:auto"></i>
+        </span>
+    </p>
+    <table class="table table-bordered" id="">
+        <thead>
+            <tr>
+                <td>
+                    Sản phẩm
+                </td>
+                <td>
+                    Chi tiết
+                </td>
+                <td>
+                    Cửa hàng
+                </td>
+                <td>
+                    Ngày nhập
+                </td>
+                <td>
+                    Tồn
+                </td>
+                <td>
+                    Giá nhập
+                </td>
+                <td>
+                    Thành tiền
+                </td>
+            </tr>
+        </thead>
+        <tbody id="myTable">
+            @Html.Action("InstockReportResult", "SanPham")
+        </tbody>
+    </table>
+</div>
+<style>
+    .baocaotop .col-xs-4{
+        margin-top:7px;
+    }
+</style>
+<script>
+    $('#selectCuaHang').change(function () {
+        var filter, table, tr, td, i;
+        filter = $(this).find('option:selected').text().trim().toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        var tongtien = 0;
+        if (filter == 'XIN MỜI CHỌN') {
+            for (i = 0; i < tr.length; i++) {
+                tr[i].style.display = "";
+            }
+            CountTotalMoney();
+        } else {
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[2];
+                var gianhap = tr[i].getElementsByTagName("td")[6];
+                if (td) {
+                    if ((td.innerHTML.toUpperCase().indexOf(filter) > -1)) {
+                        tr[i].style.display = "";
+                        tongtien += parseFloat(gianhap.innerText.replace(/,/g, ''));
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+            $('#tongtien').text(tongtien);
+            $('#tongtien').number(true, 0);
+            $('#moneytext').text(DocTienBangChu(tongtien));
+        }
+
+    });
+    function CountTotalMoney() {
+        var table = document.getElementById("myTable");
+        var tr = table.getElementsByTagName("tr");
+        var tongtien = 0;
+        for (i = 0; i < tr.length; i++) {
+            var gianhap = tr[i].getElementsByTagName("td")[6];
+            tongtien += parseFloat(gianhap.innerText.replace(/,/g, ''));
+        }
+        $('#tongtien').text(tongtien);
+        $('#tongtien').number(true, 0);
+        $('#moneytext').text(DocTienBangChu(tongtien));
+    }
+    $(document).ready(function () {
+        CountTotalMoney();
+    });
+
+    function selectcatechange(div) {
+        var a = $(div).parent().attr('id');
+        var id = $(div).val();
+        if (id == '') {
+            location.reload();
+            return false;
+        }
+        if (a == 'parent') {
+            $.ajax({
+                url: '@Url.Action("ReportProductByParentId", "SanPham")',
+                data: { id, id },
+                beforeSend:function () {
+
+                    $('#loadingdata').show();
+                },
+                success: function (data) {
+                    $('#loadingdata').hide();
+                    $('#myTable').html(data);
+                    CountTotalMoney();
+                }
+            });
+            $.ajax({
+                url: '@Url.Action("SelectChild", "LoaiSanPhams")',
+                data: { id, id },
+                beforeSend:function () {
+
+                    $('#loadingchild').show();
+                },
+                success: function (data) {
+                    $('#child').html(data);
+                    $('#loadingchild').hide();
+                }
+
+            });
+
+        } else if (a=='child') {
+            $.ajax({
+                url: '@Url.Action("ReportProductByChildId", "SanPham")',
+                data: { id, id },
+                beforeSend:function () {
+
+                    $('#loadingdata').show();
+                },
+                success: function (data) {
+                    $('#loadingdata').hide();
+                    $('#myTable').html(data);
+                    CountTotalMoney();
+                }
+            });
+        }
+    }
+</script>

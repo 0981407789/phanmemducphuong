@@ -1,0 +1,34 @@
+﻿@model WebApplication1.Models.KhachHang
+<div style="display:inline-block">
+    <div style="float:left;margin-right:10px">
+        <span>
+            Tên:
+        </span>
+        <span class="customername" style="">
+            @Model.Ten
+        </span>
+
+
+    </div>
+    <div style="float:left;font-style:italic;margin-right:10px">
+        <span>
+            Địa chỉ:   @Model.DiaChi
+        </span>
+        <span>
+            @if (Model.IdXa.HasValue)
+            {
+                <span>
+                    @Html.Action("GetTenXa", "Xas", new { id = Model.IdXa })
+                </span>
+            }
+            else
+            {
+                <span>
+                    Không xác định
+                </span>
+            }
+        </span>
+    </div>
+
+</div>
+

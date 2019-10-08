@@ -1,0 +1,76 @@
+﻿@model List<WebApplication1.Models.KhachHangTraNo>
+
+@*<div class="row">
+        <h4 class="headertext" style=" margin-top: 0px; text-transform: uppercase;font-weight: bold;">
+            <i class="fa fa-list-alt"></i> Lịch sử giao dịch
+        </h4>
+    </div>*@
+
+
+<div class="row tbheader visible-lg">
+    <div class="col-lg-2">
+        Ngày
+    </div>
+    <div class="col-lg-2">
+        Số tiền Trả
+    </div>
+    <div class="col-lg-2">
+        Phí khác
+    </div>
+    <div class="col-lg-2">
+        Còn nợ
+    </div>
+    <div class="col-lg-2">
+        Người thu
+    </div>
+    <div class="col-lg-2">
+        Ghi chú
+    </div>
+</div>
+
+@foreach (var item in Model)
+{
+    <div class="row tbitem">
+        <div class="col-lg-2">
+            <span class="date">
+                @item.NgayTra
+            </span>
+        </div>
+        <div class="col-lg-2">
+            <span class="money">
+                @item.SoTien
+            </span>
+
+        </div>
+        <div class="col-lg-2">
+            <span class="money">
+                @item.PhiKhac
+            </span>
+        </div>
+        <div class="col-lg-2">
+            <span class="money">
+                @item.ConNo
+            </span>
+        </div>
+        <div class="col-lg-2">
+            @item.NguoiNhan
+        </div>
+        <div class="col-lg-2">
+            @item.GhiChu
+        </div>
+    </div>
+}
+
+
+<script>
+    //$(document).ready(function () {
+    //    $('.money').number(this, 0);
+    //});
+    //$(".date").each(function () {
+    //    var a = $(this).text();
+    //    var b = a.split("/");
+    //    if (b.lengdiv >= 3) {
+    //        $(this).text(b[1] + " - " + b[0] + " - " + b[2].subsdiving(0, 4));
+    //    }
+    //});
+</script>

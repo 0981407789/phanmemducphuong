@@ -1,0 +1,89 @@
+﻿@model List<WebApplication1.Models.NhapHang>
+    <table class="table-bordered table">
+        <thead>
+            <tr>
+                <th>
+                    Số lô
+                </th>
+                <th>
+                    Ngày nhập
+                </th>
+                <th>
+                    Đối tác
+                </th>
+                <th>
+                    Tổng tiền
+                </th>
+                <th>
+                    Đã trả
+                </th>
+                <th>
+                    Còn nợ
+                </th>
+                <th>
+                    Ghi chú
+                </th>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Id
+                    </td>
+                    <td class="date">
+                        @item.NgayNhap
+                    </td>
+                    <td>
+                        @if (item.DoiTac.HasValue)
+                        {
+                            <a href="@Url.Action("ChiTietDoiTac","DoiTacs",new {id=item.DoiTac })">
+                                <span style="font-weight:bold">
+                                    @Html.Action("GetNameById", "DoiTacs", new { id = item.DoiTac })
+                                </span>
+                                
+                            </a>
+                        }
+
+                    </td>
+                    <td>
+                        <span class="money">
+                            @item.TongTien
+                        </span>
+
+                    </td>
+                    <td>
+                        <span class="money">
+                            @item.DaTra
+                        </span>
+
+                    </td>
+                    <td>
+                        <span class="money">
+                            @item.ConNo
+                        </span>
+                    </td>
+                    <td>
+                        @item.GhiChu
+                    </td>
+                    <td>
+                        <a href="@Url.Action("NhapSanPhamVaoLo", "SanPham", new {id=item.Id })">
+                            Chi tiết >
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+<script>
+    $('.money').number(true, 0);
+    $(".date").each(function () {
+        var date = $(this).text();
+        var dt = date.split("/");
+        if (dt.length >= 3) {
+            $(this).text(dt[1] + " - " + dt[0] + " - " + dt[2].substr(0, 4));
+        }
+    });
+</script>

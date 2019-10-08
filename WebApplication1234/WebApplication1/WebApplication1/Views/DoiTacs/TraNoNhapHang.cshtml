@@ -1,0 +1,134 @@
+﻿@model WebApplication1.Models.CuaHangTraNo
+<div>
+    @using (Ajax.BeginForm("TraNoNhapHang", "DoiTacs", new AjaxOptions
+    {
+        HttpMethod = "Post",
+        OnSuccess = "PaySuccess"
+    }))
+    {
+        @Html.HiddenFor(m => m.IdNhapHang)
+        <div class="container">
+            <p></p>
+            <div class="row">
+                <div class="col-lg-9">
+                    <div class="row">
+                        <div class="col-lg-4">
+
+                            <p>
+                                <span class="textlable">
+                                    <i class="fa fa-calendar"></i>
+                                    Ngày trả
+                                </span>
+
+                                <input type="text" class="form-control" name="ngaytra" id="ngaytra" required />
+                            </p>
+                        </div>
+                        <div class="col-lg-4">
+                            <p>
+                                <span class="textlable">
+                                    <i class="fa fa-usd"></i>
+                                    Số tiền
+                                </span>
+
+                                <input type="text" class="form-control" name="sotien" id="sotienabc" required />
+                            </p>
+                        </div>
+                        <div class="col-lg-4">
+                            <p>
+                                <span class="textlable">
+                                    <i class="fa fa-usd"></i>
+                                    Phí khác
+                                </span>
+
+                                <input type="text" class="form-control" name="phikhac" id="phikhac" />
+                            </p>
+                        </div>
+                        <div class="col-lg-4">
+                            <p>
+                                <span class="textlable">
+                                    <i class="fa fa-usd"></i>
+                                    Còn nợ
+                                </span>
+
+                                <input type="text" class="form-control" name="conno" id="connoabc" required />
+                            </p>
+                        </div>
+                        <div class="col-lg-4">
+                            <p>
+                                <span class="textlable">
+                                    <i class="fa fa-user"></i>
+                                    Người trả
+                                </span>
+
+                                <input type="text" class="form-control" name="nguoitra" />
+                            </p>
+                        </div>
+                        <div class="col-lg-4">
+                            <p>
+                                <span class="textlable">
+                                    <i class="fa fa-picture-o"></i>
+                                    Chứng từ
+                                </span>
+
+                                <input type="text" class="form-control" name="chungtu" />
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <p>
+                        <span class="textlable">
+                            <i class="fa fa-pencil-square-o"></i>
+                            Ghi chú
+                        </span>
+
+                        <textarea class="form-control" name="ghichu"></textarea>
+                    </p>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <button type="reset" class="tn btn-danger form-control">
+                                <i class="fa fa-times"></i>
+                                Hủy
+                            </button>
+                        </div>
+                        <div class="col-xs-6">
+                            <button type="submit" class="btn btn-primary form-control">
+                                <i class="fa fa-plus"></i>
+                                Nhập
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<script>
+    $("#ngaytra").datepicker($.datepicker.regional["vi"]);
+
+    function PaySuccess() {
+        Notify('Thao tác thành công');
+        $('#tranonhaphangli').removeClass('active');
+        $('#tranonhaphang').removeClass('active');
+        $('#lichsutrano').addClass('active');
+        $('#lichsutranoli').addClass('active');
+       $('#lichsutrano').load('@Url.Action("ImportPayHistory", "DoiTacs", new { id =Model.IdNhapHang })');
+
+    }
+    $(document).ready(function () {
+        $('#sotienabc').number(true, 0);
+        $('#phikhac').number(true, 0);
+        $('#connoabc').val($('#tongnocualo').val());
+        $('#connoabc').number(true, 0);
+
+    });
+    $('#sotienabc').keyup(function () {
+        var connoabc = $('#tongnocualo').val().replace(/,/g, '');
+        var sotientra = $(this).val().replace(/,/g, '');
+        var conno = connoabc - sotientra;
+        $('#connoabc').val(conno);
+        $('#connoabc').number(true, 0);
+        //console.log(sotientra);
+    });
+</script>

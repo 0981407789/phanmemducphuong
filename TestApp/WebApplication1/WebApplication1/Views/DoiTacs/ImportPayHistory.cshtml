@@ -1,0 +1,68 @@
+﻿@model List<WebApplication1.Models.CuaHangTraNo>
+<div class="container" style="margin:0px">
+    <div class="row">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        Ngày trả
+                    </th>
+                    <th>
+                        Số tiền trả
+                    </th>
+                    <th>
+                        Phí khác
+                    </th>
+                    <th>
+                        Còn nợ
+                    </th>
+                    <th>
+                        Người trả
+                    </th>
+                    <th>
+                        Chứng từ
+                    </th>
+                    <th>
+                        Ghi chú
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="">
+                            <span class="date">
+                                @item.NgayTra
+                            </span>
+                            
+                        </td>
+                        <td>
+                            <span class="tesstttttt">
+                                @item.SoTienTra
+                            </span>
+                        </td>
+                        <td class="tesstttttt">
+                           @item.PhiKhac
+                        </td>
+                        <td class="tesstttttt">
+                            @item.ConNo
+                        </td>
+                        <td>
+                            @item.NguoiTra
+                        </td>
+                        <td>
+                            @item.ChungTu
+                        </td>
+                        <td>
+                            @item.GhiChu
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $('.tesstttttt').number(true, 0);
+</script>

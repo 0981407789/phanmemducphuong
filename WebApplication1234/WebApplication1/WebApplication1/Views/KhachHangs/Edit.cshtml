@@ -1,0 +1,112 @@
+﻿@model WebApplication1.Models.KhachHang
+
+@{
+    ViewBag.Title = "Edit";
+}
+<div class='container'>
+<h2>Chi tiết</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div>
+        <h4>KhachHang</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class='row'>
+			<div class='col-lg-2'>
+            @Html.LabelFor(model => model.Ten)
+			</div>
+            <div class='col-lg-10'>
+                    @Html.TextBoxFor(model => model.Ten, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Ten)
+            </div>
+        </div>
+		<p></p>
+
+        <div class='row'>
+			<div class='col-lg-2'>
+            @Html.LabelFor(model => model.DiaChi)
+			</div>
+            <div class='col-lg-10'>
+                    @Html.TextBoxFor(model => model.DiaChi, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DiaChi)
+            </div>
+        </div>
+		<p></p>
+
+        <div class='row'>
+			<div class='col-lg-2'>
+            @Html.LabelFor(model => model.IdXa)
+			</div>
+            <div class='col-lg-10'>
+                    @Html.TextBoxFor(model => model.IdXa, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IdXa)
+            </div>
+        </div>
+		<p></p>
+
+        <div class='row'>
+			<div class='col-lg-2'>
+            @Html.LabelFor(model => model.SoDienThoai)
+			</div>
+            <div class='col-lg-10'>
+                    @Html.TextBoxFor(model => model.SoDienThoai, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SoDienThoai)
+            </div>
+        </div>
+		<p></p>
+
+        <div class='row'>
+			<div class='col-lg-2'>
+            @Html.LabelFor(model => model.Email)
+			</div>
+            <div class='col-lg-10'>
+                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
+        </div>
+		<p></p>
+
+        <div class='row'>
+			<div class='col-lg-2'>
+            @Html.LabelFor(model => model.NgaySinh)
+			</div>
+            <div class='col-lg-10'>
+                    @Html.TextBoxFor(model => model.NgaySinh, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.NgaySinh)
+            </div>
+        </div>
+		<p></p>
+
+        <div class='row'>
+			<div class='col-lg-2'>
+            @Html.LabelFor(model => model.CMND)
+			</div>
+            <div class='col-lg-10'>
+                    @Html.TextBoxFor(model => model.CMND, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CMND)
+            </div>
+        </div>
+		<p></p>
+
+        <div class="row">
+            <p></p>
+            <div class="col-xs-6">
+                <input type="submit" value="Cập nhật" class="btn btn-primary form-control " />
+            </div>
+            <div class="col-xs-6">
+                <a class="btn btn-danger form-control" href="#"> Xóa</a>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Danh sách", "Index")
+</div>
+</div>

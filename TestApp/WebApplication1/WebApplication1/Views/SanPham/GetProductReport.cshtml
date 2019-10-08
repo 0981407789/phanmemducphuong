@@ -1,0 +1,59 @@
+﻿@model WebApplication1.Models.SanPham
+<div class="col-lg-6">
+    <div style="display:inline-block;width:100%">
+        <div style="float:left;margin-right:10px">
+            <span>
+                Mã SP: @Model.Id
+            </span>
+        </div>
+        <div style="float:left;margin-right:10px">
+            @Html.Action("LoaiSanPhamById", "LoaiSanPhams", new { id = Model.IdLoai })
+            <span> - </span>
+            @Html.Action("GetProductMenufactory", "SanPham", new { id = Model.IdNhapHang })
+        </div>
+        <div style="float:left">
+
+
+            @if (!string.IsNullOrEmpty(Model.BienSo))
+            {
+                <span>
+                    - Biển số: @Model.BienSo
+                </span>
+            }
+
+            @if (!string.IsNullOrEmpty(Model.SoKhung))
+            {
+                <span>
+                    - Sk: @Model.SoKhung
+                </span>
+            }
+            @if (!string.IsNullOrEmpty(Model.SoMay))
+            {
+                <span>
+                    - SM: @Model.SoMay
+                </span>
+            }
+            @if (!string.IsNullOrEmpty(Model.MauSac))
+            {
+                <span>
+                    - Màu: @Model.MauSac
+                </span>
+            }
+        </div>
+    </div>
+</div>
+<div class="col-lg-1">
+  
+
+        <span class="money">
+            @Model.GiaNhap
+        </span>
+
+
+</div>
+<div class="col-lg-1">
+    <span class="money phikhac">
+        @Model.PhiKhac
+    </span>
+</div>
+

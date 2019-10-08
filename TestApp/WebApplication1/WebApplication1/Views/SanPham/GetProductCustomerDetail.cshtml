@@ -1,0 +1,16 @@
+﻿@model WebApplication1.Models.SanPham
+<div class="col-lg-3">
+    @Html.Action("LoaiSanPhamById", "LoaiSanPhams", new { id = Model.IdLoai })
+</div>
+<div class="col-lg-2">
+    <span class="money">
+        @Model.GiaNhap
+    </span>
+    
+</div>
+<div class="money col-lg-1">
+    <span class="phikhac">
+        @Model.PhiKhac
+    </span>
+</div>
+

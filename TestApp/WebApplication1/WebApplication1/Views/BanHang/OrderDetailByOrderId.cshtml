@@ -1,0 +1,55 @@
+﻿@model List<WebApplication1.Models.ChiTietDonHang>
+             
+    @foreach (var item in Model)
+	{
+        <div class="row childrow">
+            @Html.Action("GetProductReport", "SanPham", new { id = item.IdSanPham })
+            <div class="col-lg-1">
+                <div class="money">
+                    @item.GiaBan
+                </div>
+                
+            </div>
+            <div class="col-lg-1">
+                <div class="money">
+                    @item.SoLuong
+                </div>
+                
+            </div>
+            <div class="col-lg-2">
+                <div class="money">
+                    @item.TongTien
+                </div>          
+            </div>
+        </div>
+	}
+
+
+
+<style>
+    .childheader:nth-child(odd) {
+        background: #bbb;
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: 5px;
+        color: #004fde;
+    }
+    .childheader:nth-child(even) {
+        background: #bbb;
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: 5px;
+        color: #004fde;
+    }
+    .childrow:nth-child(odd) {
+        padding: 5px;
+        background: #fff;
+        margin: 0px;
+    }
+    .childrow:nth-child(even) {
+        padding: 5px;
+        background: #000;
+        color:#fff;
+        margin: 0px;
+    }
+</style>

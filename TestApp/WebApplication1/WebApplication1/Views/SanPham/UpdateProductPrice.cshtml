@@ -1,0 +1,512 @@
+﻿@model WebApplication1.Models.SanPham
+@{
+    ViewBag.Title = "Cập nhật giá sản phẩm";
+}
+<div class="container topinputarea" style="padding-left: 0px;padding-right: 0px; padding-top: 0px;">
+    <h4 class="headertext">
+
+        <i class="fa fa-info-circle"></i>  Thông tin sản phẩm
+    </h4>
+    <div class="row topinfo" style="">
+        <div class="col-lg-3">
+            <i class="fa fa-plus"></i>  Sản phẩm: @Html.Action("LoaiSanPhamById", "LoaiSanPhams", new { id = Model.IdLoai })
+        </div>
+        <div class="col-lg-3">
+            <i class="fa fa-plus"></i>  Mã: @Model.Id
+        </div>
+        <div class="col-lg-3">
+            <i class="fa fa-plus"></i> Giá Nhập:
+            <span class="money">
+                @Model.GiaNhap
+            </span>
+        </div>
+        <div class="col-lg-3">
+            <i class="fa fa-plus"></i>  Số lượng nhập: @Model.SoLuongNhap
+        </div>
+        <div class="col-lg-3">
+            <i class="fa fa-plus"></i>  Cửa hàng:
+            @if (Model.IdCuaHang.HasValue)
+            {
+                <span>
+                    @Html.Action("CuaHangById", "CuaHangs", new { id = Model.IdCuaHang })
+                </span>
+            }
+
+        </div>
+        <div class="col-lg-3">
+            <i class="fa fa-plus"></i> Giá bán đề xuất:
+            <span class="money">
+                @Model.GiaBanDeXuat
+            </span>
+
+        </div>
+        <div class="col-lg-3">
+            <i class="fa fa-plus"></i> Số lượng tồn:@Model.SoLuongTon
+        </div>
+        <div class="col-lg-3">
+            <i class="fa fa-plus"></i> Tổng hợp phí:
+            <span class="money">
+                @Model.PhiKhac
+            </span>
+        </div>
+        <div class="col-lg-3">
+            <i class="fa fa-plus"></i> Ngày nhập:  <span>
+                @Html.Action("NgayNhapTheoId", "DoiTacs", new { id = Model.IdNhapHang })
+            </span>
+        </div>
+        <div class="col-lg-3">
+            <i class="fa fa-plus"></i>  Nguồn gốc:  <span>
+                @Html.Action("DoiTacTheoIdNhapHang", "DoiTacs", new { id = Model.IdNhapHang })
+            </span>
+        </div>
+        <div class="col-lg-3">
+            <i class="fa fa-plus"></i>   Ghi chú:@Model.GhiChu
+        </div>
+        <div class="col-lg-6">
+
+            <div>
+                <span>
+                    <i class="fa fa-plus"></i>  Chi tiết:
+                </span>
+
+                @if (!string.IsNullOrEmpty(Model.BienSo))
+                {
+                    <span>
+                        - Biển số: @Model.BienSo
+                    </span>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.SoKhung))
+                {
+                    <span>
+                        - Sk: @Model.SoKhung
+                    </span>
+                }
+                @if (!string.IsNullOrEmpty(Model.SoMay))
+                {
+                    <span>
+                        - SM: @Model.SoMay
+                    </span>
+                }
+                @if (!string.IsNullOrEmpty(Model.MauSac))
+                {
+                    <span>
+                        - Màu: @Model.MauSac
+                    </span>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" style="padding:0px">
+    <div style=" display: flex; border-left: solid 1px #c1c1c1; border-right: solid 1px #c1c1c1;">
+        <ul class="nav nav-pills ultab">
+            <li class="active" id="suachua">
+                <a href="#suachuacontent" data-toggle="tab">
+                    <i class="fa fa-wrench"></i>   Sửa chữa
+                </a>
+            </li>
+            <li id="lichsuli">
+                <a href="#lssuachua" data-toggle="tab">
+                    <i class="fa fa-list-alt"></i>  Lịch sử
+                </a>
+            </li>
+            <li id="capnhatli">
+                <a href="#capnhatsanpham" data-toggle="tab">
+                    <i class="fa fa-pencil"></i>   Cập nhật
+                </a>
+            </li>
+
+        </ul>
+    </div>
+    <div class="tab-content" style="padding:0px">
+        <div class="tab-pane active container" id="suachuacontent" style="width:100%;padding:0px">
+            <div class="row" style="margin:0px">
+                <h4 style="" class="headertext">
+                    <i class="fa fa-plus"></i>  Tạo phiếu sửa chữa nội bộ
+                </h4>
+            </div>
+            <div class="col-lg-6" style="margin:0px;padding:0px;border-right: solid 1px #bfb9b9">
+
+                <div style="background: #ebecf9; padding-top: 10px;padding-bottom: 10px;color: #000;">
+                    @Html.Action("SuaChuaNoiBoForms", "SanPham", new { id = Model.Id })
+                </div>
+                <div>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <td>
+                                    Sản phẩm
+                                </td>
+                                <td>
+                                    Giá
+                                </td>
+                                <td>
+                                    Số lượng
+                                </td>
+                                <td>
+                                    Thành tiền
+                                </td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody id="listSpDaChon">
+                            @Html.Action("SuaChuaNoiBoDetailView", "SanPham")
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-6" style="margin:0px;padding:0px">
+                <div class="container-fuid" style="background-color: #e4e6ff;padding: 10px 5px 20px 5px;">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <span class="textlable">
+                                <i class="fa fa-list"></i>
+                                Danh mục
+                            </span>
+                            <div class="" id="parent">
+                                @Html.Action("SelectParent", "LoaiSanPhams")
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <span class="textlable">
+                                <i class="fa fa-list"></i>
+                                Loại sản phẩm
+                            </span>
+                            <div id="child">
+                                <select class="form-control">
+                                    <option>Chọn danh mục</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="table-responsive" id="ListSanPhamSuaChuaNoiBo">
+                    @Html.Action("ListSanPhamSuaChuaNoiBo", "SanPham")
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="lssuachua">
+            
+                @Html.Action("LichSuSuaChuaNoiBo", "SanPham", new { id = Model.Id })
+            
+        </div>
+
+        <div class="tab-pane" id="capnhatsanpham">
+            <p></p>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="container">
+                    @Html.HiddenFor(model => model.Id)
+                    <div class='row'>
+                        <div class='col-lg-2'>
+                            Giá nhập
+                        </div>
+                        <div class='col-lg-10'>
+                            <input type="text" class="form-control" id="giacapnhat" value="@Model.GiaNhap" />
+                            @Html.HiddenFor(model => model.GiaNhap, new { @class = "form-control money", id = "giacapnhatreal" })
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class='row'>
+                        <div class='col-lg-2'>
+                            Giá bán đề xuất
+                        </div>
+                        <div class='col-lg-10'>
+                            <input type="text" class="form-control" id="giasua" value="@Model.GiaBanDeXuat" />
+                            @Html.HiddenFor(model => model.GiaBanDeXuat, new { @class = "form-control", id = "giasuareal" })
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class='row'>
+                        <div class='col-lg-2'>
+                            Biển số
+                        </div>
+                        <div class='col-lg-10'>
+                            @Html.TextBoxFor(model => model.BienSo, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class='row'>
+                        <div class='col-lg-2'>
+                            Màu sắc
+                        </div>
+                        <div class='col-lg-10'>
+                            @Html.TextBoxFor(model => model.MauSac, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class='row'>
+                        <div class='col-lg-2'>
+                            Số khung
+                        </div>
+                        <div class='col-lg-10'>
+                            @Html.TextBoxFor(model => model.SoKhung, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class='row'>
+                        <div class='col-lg-2'>
+                            Số máy
+                        </div>
+                        <div class='col-lg-10'>
+                            @Html.TextBoxFor(model => model.SoMay, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class='row'>
+                        <div class='col-lg-2'>
+                            Số lượng tồn
+                        </div>
+                        <div class='col-lg-10'>
+                            @Html.TextBoxFor(model => model.SoLuongTon, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class='row'>
+                        <div class='col-lg-2'>
+                            Số lượng nhập
+                        </div>
+                        <div class='col-lg-10'>
+                            @Html.TextBoxFor(model => model.SoLuongNhap, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class='row'>
+                        <div class='col-lg-2'>
+                            Cửa hàng
+                        </div>
+                        <div class='col-lg-10'>
+
+                            @Html.Action("SelectCuaHang", "CuaHangs")
+                            @Html.HiddenFor(model => model.IdCuaHang, new { @class = "form-control", id = "IdCuaHang" })
+
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class='row'>
+                        <div class='col-lg-2'>
+                            Phí khác
+                        </div>
+                        <div class='col-lg-10'>
+                            @Html.TextBoxFor(model => model.PhiKhac, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class='row'>
+                        <div class='col-lg-2'>
+                            Ghi chú
+                        </div>
+                        <div class='col-lg-10'>
+                            @Html.TextAreaFor(model => model.GhiChu, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="row">
+                        <p></p>
+                        <div class="col-xs-6">
+                            <a class="btn btn-danger form-control" href="#"> Hủy</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <input type="submit" value="Cập nhật" class="btn btn-primary form-control " />
+                        </div>
+
+                    </div>
+                </div>
+                <p></p>
+            }
+        </div>
+    </div>
+    <p></p>
+    <p></p>
+</div>
+
+<style>
+    .row-header {
+        padding: 10px;
+        background: #000000;
+        margin: 0px;
+        color: #fff;
+        font-weight: bold;
+    }
+
+    .row-content:nth-child(odd) {
+        margin: 0px;
+        padding: 10px;
+        color: #000;
+        background: #d6d6d6;
+    }
+
+    .row-content:nth-child(even) {
+        margin: 0px;
+        padding: 10px;
+        color: #000;
+        background: #fff;
+    }
+
+    .ultab {
+        border: solid 1px #cacaca;
+        border-bottom: none;
+        display: inline-block;
+    }
+
+        .ultab li a {
+            border-radius: 0px;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+    .tab-content {
+        border: solid 1px #cacaca;
+        padding: 5px;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        $('#selectCuaHang').val('@Model.IdCuaHang')
+    });
+    $('#tongtiensuachua').number(true, 0);
+    $('#giasua').number(true, 0);
+    $('#giasua').keyup(function () {
+        var data = $(this).val().trim().replace(/,/, '');
+        $('#giasuareal').val(data);
+    });
+    $('#selectCuaHang').change(function () {
+        $('#IdCuaHang').val($(this).val());
+    });
+    $('#giacapnhat').number(true, 0);
+    $('#giacapnhat').keyup(function () {
+        var data = $(this).val().trim().replace(/,/, '');
+        $('#giacapnhatreal').val(data);
+    });
+    var tongtiensua = 0;
+    function AddProduct(id) {
+        var ten = $('#ten_' + id).text().trim();
+        var gianhap = $('#gianhap_' + id).text().trim();
+        $.ajax({
+            url: '@Url.Action("AddSuaChuaNoiBoDetail","SanPham")',
+            data: { id:id },
+            success: function (data) {
+                var json = $.parseJSON(data);
+                if (json['code'] == '1') {
+                    var tr ="<tr id='row_"+id+"'>";
+                    tr +="<td>" + ten + "</td >";
+                    tr += "<td>" + gianhap + "</td>";
+                    tr += "<td><input type='text' id='soluong_" + id + "' class='input_sl' value='1'></td>";
+                    tr += "<td class='money' id='thanhtien_" + id + "'>" + gianhap + "</td>";
+                    tr+= "<td><a href='Javascript:void(0)'";
+                    tr+= " onclick='DeleteItem(" + id + ")' onfocus='GetCurrenVal(" + id + ") onblur='UpdateItems(" + id + ")'>";
+                    tr+="   <i class='fa fa-chevron-left'></i ></a ></td > ";
+                    tr += "</tr>";
+                    $('#listSpDaChon').prepend(tr);
+                    tongtiensua += parseFloat(gianhap.replace(/,/g,''));
+                    $('#tongtiensuachua').val(tongtiensua);
+                    $('#tongtiensuachua').number(true, 0);
+                }
+                if (json['code']==3) {
+                    Notify('Số lượng tồn không đủ');
+                    $('#listSpDaChon').load('@Url.Action("SuaChuaNoiBoDetailView", "SanPham")');
+                }
+                if (json['code'] == 2) {
+                    //$('#thanhtien_' + id).text();
+                    var thanhtien = $('#thanhtien_' + id).text().trim().replace(/,/g, '');
+                    var tongtien = parseFloat(thanhtien) + parseFloat(gianhap.replace(/,/g, ''));
+                    console.log(thanhtien + '-' + gianhap);
+                    $('#thanhtien_' + id).text(tongtien);
+                    $('#thanhtien_' + id).number(true, 0);
+                    var soluong = $('#soluong_' + id).val();
+                    $('#soluong_' + id).val(parseInt(soluong) + 1);
+                    tongtiensua += parseFloat(gianhap.replace(/,/g, ''));
+                    $('#tongtiensuachua').val(tongtiensua);
+                    $('#tongtiensuachua').number(true, 0);
+
+                }
+            }
+        });
+
+    }
+    function DeleteItem(id) {
+        $.ajax({
+            url: '@Url.Action("DeleteItem","SanPham")',
+            data: { id, id },
+            success: function (data) {
+                $('#row_' + id).remove();
+                $('#tongtiensuachua').val(data);
+
+            }
+        });
+    }
+    var onfocusval = 0;
+    function GetCurrenVal(id) {
+        onfocusval = $('#soluong_' + id).val();
+    }
+    function UpdateItems(id) {
+        var outforcusval = $('#soluong_' + id).val();
+        if (onfocusval != outforcusval) {
+            //update so luong
+            $.ajax({
+                url: '@Url.Action("UpdateSoLuongPhuTung","SanPham")',
+                data: { id: id, soluong: outforcusval },
+                success: function (data) {
+                    if (data == 0) {
+                        Notify('Số lượng tồn không đủ');
+                    }
+                    $('#listSpDaChon').load('@Url.Action("SuaChuaNoiBoDetailView", "SanPham")');
+                }
+            });
+        }
+    }
+    function selectcatechange(div) {
+        var a = $(div).parent().attr('id');
+        var id = $(div).val();
+        if (id == '') {
+            if (a=='parent') {
+                $('#child').find('#selectLoaiSanPham').attr('disabled', true);
+            }
+            return false;
+        }
+        else if (a == 'parent') {
+            if (id == '') {
+                $('#child').find('#selectLoaiSanPham').attr('disabled', true);
+            }
+            $.ajax({
+                url: '@Url.Action("SelectChild", "LoaiSanPhams")',
+                data: { id, id },
+                success: function (data) {
+                    $('#child').html(data);
+                }
+            });
+        } else if (a == 'child') {
+            $('#IdLoai').val(id);
+            $.ajax({
+                url: '@Url.Action("TimSanPhamSuaChuaNoibo", "SanPham")',
+                data: { id, id },
+                success: function (data) {
+                    $('#ListSanPhamSuaChuaNoiBo').html(data);
+                }
+            });
+        }
+    }
+</script>
+<style>
+    .inputtext {
+        width: 100px;
+        border-radius: 5px;
+        border: solid 1px #bfbdbd;
+        padding: 5px 10px;
+        font-weight: bold;
+    }
+
+    .input_sl {
+        width: 50px;
+        border-radius: 5px;
+        border: solid 1px #bfbdbd;
+        padding: 5px 10px;
+        font-weight: bold;
+    }
+</style>

@@ -1,0 +1,77 @@
+﻿@model List<WebApplication1.Models.KhachHang>
+@{
+    Layout = null;
+}
+@if (Model != null && Model.Count > 0)
+{
+    <ul id="ListCustomer">
+        @foreach (var item in Model)
+        {
+            <li>
+                <span class="c_id hidden">@item.Id</span>
+                <span class="c_name">@item.Ten</span>
+                <span> - </span>
+                <span class="c_phone"> @item.SoDienThoai</span>
+                <span class="c_diachi hidden"> @item.DiaChi</span>
+                <span class="c_ngaysinh hidden"> @item.NgaySinh</span>
+                <span class="c_cmnd hidden"> @item.CMND</span>
+                <span class="c_xa hidden">
+                    @if (item.IdXa.HasValue)
+                    {
+                        @Html.Action("GetTenXa", "Xas", new { id = item.IdXa })
+                    }
+                    else
+                    {
+                        <span>Không xác định</span>
+                    }
+                   
+                </span>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <a class="textAddNewCustomer" id="textAddNewCustomer" href="@Url.Action("AddCustomer","KhachHangs")">
+        <p style="padding:10px;font-weight:bold">Thêm khách hàng mới</p>
+    </a>
+}
+<style>
+    ul {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    #ListCustomer li {
+        border-bottom: solid 1px #c8c8c8;
+        list-style-type: none;
+        padding: 10px;
+    }
+
+        #ListCustomer li:hover {
+            cursor: pointer;
+        }
+</style>
+<script>
+    $(document).ready(function () {
+        $('.textAddNewCustomer').colorbox();
+
+        $('#ListCustomer li').click(function (e) {
+            var name = $(this).find("span.c_name").text();
+            var phone = $(this).find("span.c_phone").text();
+            var diachi = $(this).find("span.c_diachi").text();
+            var xa = $(this).find("span.c_xa").text();
+            var id = $(this).find("span.c_id").text();
+            var ngaysinh = $(this).find("span.c_ngaysinh").text();
+            var cmnd = $(this).find("span.c_cmnd").text();
+            $('#cmnd').val(cmnd);
+            $('#autoCompleteCustomer').val(name);
+            $('#birthday').val(ngaysinh);
+            $('#xa').val(xa.trim());
+            $('#diachi').val(diachi.trim());
+            $('#phone').val(phone);
+            $('#idcustomer').val(id);
+            $('#ShowArea').hide();
+        });
+    });
+</script>

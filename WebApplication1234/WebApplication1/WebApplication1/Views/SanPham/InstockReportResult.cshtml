@@ -1,0 +1,43 @@
+﻿@model List<WebApplication1.Models.SanPham>
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.Action("LoaiSanPhamById", "LoaiSanPhams", new { id = item.IdLoai })
+        </td>
+        <td>
+            @item.SoKhung - @item.SoMay - @item.BienSo - @item.MauSac
+        </td>
+        <td>
+            @Html.Action("CuaHangById", "CuaHangs", new { id = item.IdCuaHang })
+        </td>
+        <td>
+            @Html.Action("GetDateInput", "SanPham", new { id = item.IdNhapHang })
+        </td>
+        <td>
+            <span class="money">
+                @item.SoLuongTon
+            </span>
+
+        </td>
+        <td>
+            <span class="money">
+                @item.GiaNhap
+            </span>
+
+        </td>
+        <td>
+            <span class="money">
+                @{
+                    var thanhtien = item.GiaNhap * item.SoLuongTon;
+                }
+                @thanhtien
+            </span>
+
+        </td>
+
+    </tr>
+}
+<script>
+    $('.money').number(true, 0);
+</script>

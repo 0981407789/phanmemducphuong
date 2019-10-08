@@ -1,0 +1,35 @@
+﻿@model WebApplication1.Models.KhachHang
+<div>
+    <div>
+        <span>
+            Tên
+        </span>
+        <span>
+            @Model.Ten
+        </span>
+    </div>
+    <div>
+        <span>
+            CMND
+        </span>
+        <span>
+            @Model.CMND
+        </span>
+    </div>
+    <div>
+        <span>
+            Điện thoại
+        </span>
+        <span>
+            @Model.SoDienThoai
+        </span>
+    </div>
+    <div>
+        <span>
+            Địa chỉ
+        </span>
+        <span>
+            @Model.DiaChi -  @Html.Action("GetTenXa", "Xas", new { id = Model.IdXa })
+        </span>
+    </div>
+</div>

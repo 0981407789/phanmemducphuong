@@ -1,0 +1,146 @@
+﻿@model List<WebApplication1.Models.KhachHangTraNo>
+
+@using (Html.BeginForm("ReportCutomerPay", "BanHang", FormMethod.Get))
+{
+    <div class="container topinputarea">
+        <div class="row">
+            <h4 class="headertext">
+                <i class="fa fa-bar-chart"></i>  Báo cáo <i class="fa fa-chevron-right"></i> Doanh Thu
+            </h4>
+        </div>
+        <div class="row baocaotop">
+            <div class="col-lg-5">
+                <p class="row">
+
+                    <span class="col-lg-3 col-xs-3">
+                        <i class="fa fa-calendar"></i>  Từ ngày
+                    </span>
+                    <span class="col-lg-9 col-xs-9">
+                        <input type="text" class="form-control" id="fromdate" name="f" value="@ViewBag.f" />
+                    </span>
+
+                </p>
+            </div>
+            <div class="col-lg-5">
+                <p class="row">
+                    <span class="col-lg-3 col-xs-3">
+                        <i class="fa fa-calendar"></i>  Đến ngày
+                    </span>
+                    <span class="col-lg-9 col-xs-9">
+                        <input type="text" class="form-control" id="todate" name="t" value="@ViewBag.t" />
+                    </span>
+
+                </p>
+            </div>
+            <div class="col-lg-2">
+                <button type="submit" class="form-control btn btn-primary" style="font-weight:bold">
+                    <i class="fa fa-file-o"></i>
+                    Báo cáo
+                </button>
+
+            </div>
+        </div>
+
+    </div>
+}
+<div class="container" id="DanhSachSanPham">
+    <p style="background: #d6d6d6; color: #ff0000; padding: 10px; margin-bottom: 0px; font-weight: bold; font-size: 20px;" class="row">
+
+        Số tiền: <span id="tongthu"></span>
+        +
+        Phí khác: <span id="tongphi"></span>
+        =
+        <span id="thucthu"></span>
+    </p>
+    <div class="row tbheader visible-lg">
+
+        <div class="col-lg-2">
+            Ngày tháng
+        </div>
+        <div class="col-lg-3">
+            Khách Hàng
+        </div>
+
+        <div class="col-lg-2">
+            Số tiền
+        </div>
+        <div class="col-lg-1">
+            Phí
+        </div>
+        <div class="col-lg-2">
+            Người thu
+        </div>
+        <div class="col-lg-2">
+            Ghi chú
+        </div>
+
+
+    </div>
+    @if (Model != null)
+    {
+
+
+        foreach (var item in Model)
+        {
+            <div class="trrepot row tbitem">
+                <div class="col-lg-2">
+                    <span class="date">
+                        @item.NgayTra
+                    </span>
+
+                </div>
+                <div class="col-lg-3">
+                    @Html.Action("GetCustomerByOrder", "KhachHangs", new { id = item.IdDonHang })
+                </div>
+                <div class="col-lg-2">
+                    <span class="money sotien">
+                        @item.SoTien
+                    </span>
+
+                </div>
+                <div class="col-lg-1">
+                    <span class="money phikhac">
+                        @item.PhiKhac
+                    </span>
+
+                </div>
+                <div class="col-lg-2">
+                    @item.NguoiNhan
+                </div>
+                <div class="col-lg-2">
+                    @item.GhiChu
+                </div>
+            </div>
+        }
+
+
+    }
+</div>
+<script>
+    $("#fromdate").datepicker(
+        $.datepicker.regional["vi"]
+    );
+    $("#todate").datepicker(
+        $.datepicker.regional["vi"]
+    );
+    $(document).ready(function () {
+        //CountTotalMoney();
+        var tongtien = 0;
+        $('.sotien').each(function () {
+            var sotien = $(this).text().replace(/,/g, '');
+            tongtien += parseFloat(sotien);
+            $('#tongthu').text(tongtien);
+            $('#tongthu').number(true, 0);
+        });
+        var tongphi = 0;
+        $('.phikhac').each(function () {
+            var sotien = $(this).text().replace(/,/g, '');
+            tongphi += parseFloat(sotien);
+            $('#tongphi').text(tongphi);
+            $('#tongphi').number(true, 0);
+        });
+        var thucthu = tongtien + tongphi;
+        $('#thucthu').text(thucthu);
+        $('#thucthu').number(true, 0);
+    });
+</script>

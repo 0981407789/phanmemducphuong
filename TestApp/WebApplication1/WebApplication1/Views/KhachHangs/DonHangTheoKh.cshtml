@@ -1,0 +1,102 @@
+﻿@model List<WebApplication1.Models.DonHang>
+    <div class="row tbheader visible-lg">
+        <div class="col-lg-3">
+            Ngày tháng
+        </div>
+        <div class="col-lg-3">
+            Thanh toán
+        </div>
+        <div class="col-lg-2">
+            Người bán
+        </div>
+
+        <div class="col-lg-3">
+            Ghi chú
+        </div>
+        <div class="col-lg-1">
+
+        </div>
+    </div>
+
+    @foreach (var item in Model)
+    {
+        <div class="row tbitem">
+            <div class="col-lg-3">
+                <p>
+                    Ngày bán:
+                    <span class="date">
+                        @item.NgayBan
+                    </span>
+                </p>
+                <p>
+                    Ngày hẹn:
+                    <span class="date">
+                        @item.NgayHen
+                    </span>
+                </p>
+                <p>
+                    Ngày tính lãi:
+                    <span class="date">
+                        @item.NgayTinhLai
+                    </span>
+                </p>
+            </div>
+            <div class="col-lg-3">
+                <p>
+                    Tổng:
+                    <span class="money">
+                        @item.SoTien
+                    </span>
+                </p>
+                <p>
+                    Thanh toán:
+                    <span class="money">
+                        @item.DaTra
+                    </span>
+                </p>
+                <p>
+                    Còn nợ:
+                    <span class="money">
+                        @item.ConNo
+                    </span>
+                </p>
+
+            </div>
+
+
+            <div class="col-lg-2">
+
+                <p>
+                    <span class="hidden-lg" style="float:left">
+                        Người bán:
+                    </span>
+                    <span>
+                        @item.NguoiBan
+                    </span>
+                </p>
+
+            </div>
+
+
+            <div class="col-lg-3">
+                <p>
+                    <span class="hidden-lg" style="float:left">
+                        Ghi chú:
+                    </span>
+                    <span>
+                        @item.GhiChu
+                    </span>
+                </p>
+
+            </div>
+            <div class="col-lg-1">
+                <a href='@Url.Action("ChiTietdonHang","KhachHangs",new {id =item.Id})' class="detail">Chi tiết</a>
+            </div>
+        </div>
+    }
+
+    <script>
+        //$(document).ready(function () {
+        //    $('.detail').colorbox({ width: '80%' });
+        //});
+    </script>

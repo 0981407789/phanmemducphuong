@@ -1,0 +1,26 @@
+﻿@model List<WebApplication1.Models.ChiTietSuaChuaNoiBo>
+@foreach (var item in Model)
+{
+    <tr id="row_@item.IdPhuTung">
+        <td>
+            @Html.Action("LoaiSanPhamByIdSanPham", "LoaiSanPhams", new { id = item.IdPhuTung })
+        </td>
+        <td class="money">
+            @item.GiaTien
+        </td>
+        <td>
+            <input id="soluong_@item.IdPhuTung" type='text' onfocus="GetCurrenVal('@item.IdPhuTung')"
+                   onblur="UpdateItems('@item.IdPhuTung')"
+                   class='input_sl' value='@item.SoLuong'>
+        </td>
+        <td class="money" id="thanhtien_@item.IdPhuTung">
+            @item.ThanhTien
+        </td>
+        <td>
+            <a href="Javascript:void(0)" onclick="DeleteItem(@item.IdPhuTung)"><i class='fa fa-chevron-left'></i></a>
+        </td>
+    </tr>
+}
+<script>
+    $('.money').number(true, 0);
+</script>

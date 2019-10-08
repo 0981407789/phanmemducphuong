@@ -1,0 +1,91 @@
+﻿@model List<WebApplication1.Models.SanPham>
+<div style="margin-top:20px" class="table-responsive">
+    <table class="table table-bordered" id="">
+        <thead>
+            <tr>
+                <th>
+                    Sản phẩm
+                </th>
+                <th>
+                    Chi tiết
+                </th>
+                <th>
+                    Cửa hàng
+                </th>
+                <th>
+                    Tồn
+                </th>
+                <th>
+                    Giá nhập
+                </th>
+                <th>
+                    Giá bán (Đề xuất)
+                </th>
+            </tr>
+        </thead>
+        <tbody id="myTable">
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.Action("LoaiSanPhamById", "LoaiSanPhams", new { id = item.IdLoai })
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.BienSo))
+                    {
+                        <span>
+                            - Biển số: @item.BienSo
+                        </span>
+                    }
+
+                    @if (!string.IsNullOrEmpty(item.SoKhung))
+                    {
+                        <span>
+                            - Sk: @item.SoKhung
+                        </span>
+                    }
+                    @if (!string.IsNullOrEmpty(item.SoMay))
+                    {
+                        <span>
+                            - SM: @item.SoMay
+                        </span>
+                    }
+                    @if (!string.IsNullOrEmpty(item.MauSac))
+                    {
+                        <span>
+                            - Màu: @item.MauSac
+                        </span>
+                    }
+
+                    
+                </td>
+                <td>
+
+                    @Html.Action("CuaHangById", "CuaHangs", new { id = item.IdCuaHang })
+                </td>
+                <td>
+                    <span class="dmmm">
+                        @item.SoLuongTon
+                    </span>
+
+                </td>
+                <td>
+                    <span class="dmmm">
+                        @item.GiaNhap
+                    </span>
+
+                </td>
+                <td>
+                    <span class="dmmm">
+                        @item.GiaBanDeXuat
+                    </span>
+                </td>
+
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script>
+    $('.dmmm').number(true, 0);
+</script>
